@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musofir Taomlari - Migrantlar uchun oson retseptlar</title>
+    <style>
+        /* ==========================================
+           CSS RESET & BASE STYLES
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            padding-bottom: 50px;
+        }
+
+        /* Header Style */
+        header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* ==========================================
+           🧮 AQLLI KALKULYATOR BO'LIMI
+           ========================================== */
+        .calculator-container {
+            background-color: white;
+            max-width: 600px;
+            margin: -25px auto 30px auto;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            z-index: 20;
+        }
+
+        .calculator-container h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .calculator-container p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #2a5298;
+            box-shadow: 0 0 8px rgba(42, 82, 152, 0.2);
+        }
+
+        .calc-btn {
+            background-color: #2a5298;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .calc-btn:hover {
+            background-color: #1e3c72;
+        }
+
+        .calc-result-text {
+            margin-top: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            display: none;
+            line-height: 1.4;
+        }
+
+        /* ==========================================
+           TOIFALI FILTRLAR BO'LIMI
+           ========================================== */
+        .filter-container {
+            text-align: center;
+            margin: 20px auto 30px auto;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+
+        .filter-container h4 {
+            margin-bottom: 12px;
+            color: #2a5298;
+            font-size: 1.1rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            border: 2px solid #2a5298;
+            background-color: white;
+            color: #2a5298;
+            cursor: pointer;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn.active, .btn:hover {
+            background-color: #2a5298;
+            color: white;
+            box-shadow: 0 4px 10px rgba(42, 82, 152, 0.3);
+        }
+
+        /* ==========================================
+           TAOMLAR SETKASI VA KARTALARI
+           ========================================== */
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .recipe-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #e74c3c;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 0.85rem;
+        }
+
+        /* Pul yetmagan, lekin yaqin bo'lgan taomlar stillari */
+        .recipe-card.alternative-choice {
+            opacity: 0.9;
+            border: 2px dashed #e67e22;
+        }
+
+        .recipe-card.alternative-choice .badge {
+            background-color: #e67e22;
+        }
+
+        .insufficient-funds-alert {
+            background-color: #ffeaa7;
+            color: #d35400;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid #fab1a0;
+            display: none;
+        }
+
+        .recipe-card.alternative-choice .insufficient-funds-alert {
+            display: block;
+        }
+
+        /* 16:9 Video uchun moslashuvchan konteyner */
+        .video-placeholder {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .video-placeholder iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .recipe-content {
+            padding: 25px;
+        }
+
+        .recipe-content h2 {
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+            color: #2c3e50;
+        }
+
+        /* Keshbek va tejamkorlik maslahat oynasi */
+        .saving-tip {
+            background-color: #e8f4fd;
+            padding: 12px;
+            border-left: 4px solid #3498db;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+
+        .recipe-content h3 {
+            font-size: 1.1rem;
+            margin: 15px 0 8px 0;
+            color: #34495e;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 4px;
+        }
+
+        .recipe-content ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .recipe-content ul li {
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .recipe-content p {
+            line-height: 1.6;
+            font-size: 0.95rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header qismi -->
+<header>
+    <h1>🇺🇿 Musofir Taomlari</h1>
+    <p>Rossiyadagi migrant aka-ukalarimiz uchun arzon, oson va tejamkor retseptlar portali</p>
+</header>
+
+<!-- 🧮 Aqlli Kalkulyator Bo'limi -->
+<section class="calculator-container">
+    <h3>🧮 Aqlli Kalkulyator</h3>
+    <p>Hamyoningizdagi pul miqdorini kiriting (Masalan, 170 kiritsangiz unga yaqin taomlarni ham chiqaradi):</p>
+    <div class="input-group">
+        <input type="number" id="userBudget" placeholder="Masalan: 170, 210, 95" min="0">
+        <button class="calc-btn" onclick="calculateMyFood()">Taom topish</button>
+    </div>
+    <div class="calc-result-text" id="calcOutput"></div>
+</section>
+
+<!-- Toifali saralash tugmalari -->
+<section class="filter-container">
+    <h4>Yoki toifa bo'yicha tekshiring:</h4>
+    <div class="filter-buttons">
+        <button class="btn active" id="btn-all" onclick="filterRecipes('all', event)">Hammasi</button>
+        <button class="btn" onclick="filterRecipes('100', event)">100 Rubl</button>
+        <button class="btn" onclick="filterRecipes('150', event)">150 Rubl</button>
+        <button class="btn" onclick="filterRecipes('300', event)">300 Rubl</button>
+    </div>
+</section>
+
+<!-- Taomlar ro'yxati -->
+<main class="recipes-grid" id="recipes">
+
+    <!-- Post 1: 100 Rubl -->
+    <div class="recipe-card" data-budget="100">
+        <div class="insufficient-funds-alert"></div>
+        <div class="badge">100 Rubl</div>
+        <div class="video-placeholder">
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video darslik" allowfullscreen></iframe>
+        </div>
+        <div class="recipe-content">
+            <h2>Oson Qovurilgan Tuxum</h2>
+            <div class="saving-tip">💡 <strong>Keshbek siri:</strong> "Pyaterochka" yoki "Magnit" do'konlarida keshbek kartasidan foydalaning, yig'ilgan ballarga keyingi safar tuxumni bepul olasiz!</div>
+            <h3>Kerakli mahsulotlar:</h3>
+            <ul>
+                <li>Tuxum (C2 toifa, 10ta) — 85 rubl</li>
+                <li>Tuz va ozgina o'simlik yog'i</li>
+            </ul>
+            <h3>Tayyorlanishi:</h3>
+            <p>Tovaga ozgina yog' solib qizdirasiz. Tuxumlarni chaqib, ta'bga ko'ra tuz sepasiz. Olovni pastlatib, sarg'ishi pishguncha 3-4 daqiqa qovurasiz.</p>
+        </div>
+    </div>
+
+    <div class="recipe-card" data-budget="150">
+        <div class="insufficient-funds-alert"></div>
+        <div class="badge">150 Rubl</div>
+        <div class="video-placeholder">
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video darslik" allowfullscreen></iframe>
+        </div>
+        <div class="recipe-content">
+            <h2>Piyozli Tuxum-Qovurdoq</h2>
+            <div class="saving-tip">💡 <strong>Keshbek siri:</strong> Do'kon ilovasini yuklab oling, u yerda aynan piyoz va non uchun haftalik maxsus chegirmali kuponlar bo'ladi.</div>
+            <h3>Kerakli mahsulotlar:</h3>
+            <ul>
+                <li>Tuxum (4 dona) — 40 rubl</li>
+                <li>Piyoz (2 dona kattaroq) — 15 rubl</li>
+                <li>Arzonroq non (Moya sena) — 35 rubl</li>
+                <li>Yog' — 20 rubl</li>
+            </ul>
+            <h3>Tayyorlanishi:</h3>
+            <p>Piyozni mayda to'g'rab, tillarang bo'lguncha qovurasiz. Keyin ustiga tuxumlarni chaqib, tuz sepib aralashtirasiz. Piyoz taomni barakali qiladi.</p>
+        </div>
+    </div>
+
+    <div class="recipe-card" data-budget="300">
+        <div class="insufficient-funds-alert"></div>
+        <div class="badge">300 Rubl</div>
+        <div class="video-placeholder">
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video darslik" allowfullscreen></iframe>
+        </div>
+        <div class="recipe-content">
+            <h2>Tovuqli va Kartoshkali Qozonkabob (2 kishilik)</h2>
+            <div class="saving-tip">💡 <strong>Tejamkorlik siri:</strong> Go'shtlarni kechki soat 20:00 dan keyin supermarketlardan izlang. Ko'p do'konlar o'sha vaqtda go'shtlarga 20-30% gacha sarg'ish chegirmali yorliq yopishtirishadi.</div>
+            <h3>Kerakli mahsulotlar:</h3>
+            <ul>
+                <li>Tovuq soni (Golen, 500g) — 160 rubl</li>
+                <li>Kartoshka (1 kg) — 45 rubl</li>
+                <li>Piyoz va ziravorlar — 40 rubl</li>
+                <li>Non — 35 rubl</li>
+            </ul>
+            <h3>Tayyorlanishi:</h3>
+            <p>Tovuqlarni tuzlab baland olovda qizartirib olasiz. Keyin shu yog'da kartoshkalarni ham qovurib, hammasini birga ozgina suv solib 25 daqiqa dimlaysiz.</p>
+        </div>
+    </div>
+
+    <script>
+        // 1. Toifa tugmalari orqali saralash funksiyasi
+        function filterRecipes(budget, event) {
+            const outputText = document.getElementById('calcOutput');
+            outputText.style.display = 'none';
+            document.getElementById('userBudget').value = '';
+
+            if(event) {
+                const buttons = document.querySelectorAll('.btn');
+                buttons.forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+            }
+
+            const cards = document.querySelectorAll('.recipe-card');
+            cards.forEach(card => {
+                card.classList.remove('alternative-choice');
+                if (budget === 'all') {
+                    card.style.display = 'flex';
+                } else {
+                    if (card.getAttribute('data-budget') === budget) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // 2. 🧮 Haqiqiy va yaqin narxlarni hisoblovchi kalkulyator funksiyasi
+        function calculateMyFood() {
+            const userInput = document.getElementById('userBudget').value;
+            const outputText = document.getElementById('calcOutput');
+            const cards = document.querySelectorAll('.recipe-card');
+
+            if (!userInput || userInput <= 0) {
+                outputText.style.display = 'block';
+                outputText.style.color = '#e74c3c';
+                outputText.innerText = "Iltimos, to'g'ri pul miqdorini kiriting!";
+                return;
+            }
+
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            const userMoney = parseInt(userInput);
+            let exactMatchCount = 0;
+            let closestAlternative = null;
+            let minPriceDifference = Infinity;
+
+            cards.forEach(card => {
+                card.classList.remove('alternative-choice');
+                card.style.display = 'none';
+
+                const cardCost = parseInt(card.getAttribute('data-budget'));
+
+                if (userMoney >= cardCost) {
+                    card.style.display = 'flex';
+                    exactMatchCount++;
+                } else {
+                    const difference = cardCost - userMoney;
+                    if (difference < minPriceDifference) {
+                        minPriceDifference = difference;
+                        closestAlternative = card;
+                    }
+                }
+            });
+
+            outputText.style.display = 'block';
+
+            if (exactMatchCount > 0) {
+                outputText.style.color = '#27ae60';
+                outputText.innerText = `Sizning ${userMoney} rublingizga to'g'ri keladigan ${exactMatchCount} ta taom topildi!`;
+
+                // Agar puli yetgandan tashqari, sal qimmatroq yaqin taom bo'lsa uni ham "Tavsiya" sifatida ko'rsatish
+                if (closestAlternative) {
+                    closestAlternative.style.display = 'flex';
+                    closestAlternative.classList.add('alternative-choice');
+                    const alertZone = closestAlternative.querySelector('.insufficient-funds-alert');
+                    alertZone.innerText = `⚠️ Ushbu taomga yana ${minPriceDifference} rubl yetmadi. Xonadoshingiz bilan birlashsangiz bo'ladi!`;
+                }
+            } else {
+                // Agar umuman puli yetmasa, faqat eng yaqinini ko'rsatadi
+                outputText.style.color = '#e67e22';
+                outputText.innerText = `Afsuski, ${userMoney} rublga yetadigan taom yo'q. Sizga eng yaqin variantni ko'rsatmoqdamiz:`;
+
+                if (closestAlternative) {
+                    closestAlternative.style.display = 'flex';
+                    closestAlternative.classList.add('alternative-choice');
+                    const alertZone = closestAlternative.querySelector('.insufficient-funds-alert');
+                    alertZone.innerText = `⚠️ Ushbu taomni tayyorlash uchun sizga yana ${minPriceDifference} rubl kerak.`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
