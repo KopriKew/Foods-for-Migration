@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Musofir Taomlari - Migrantlar uchun oson retseptlar</title>
+
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <style>
         /* ==========================================
            CSS RESET & BASE STYLES
@@ -15,13 +19,84 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        html { scroll-behavior: smooth; }
+
         body {
             background-color: #f4f6f9;
             color: #333;
             padding-bottom: 50px;
         }
 
-        /* Header Style */
+        section[id] { scroll-margin-top: 78px; }
+
+        .material-icons {
+            line-height: 1;
+            vertical-align: -0.15em;
+        }
+
+        /* ==========================================
+           TOP NAVBAR
+           ========================================== */
+        .topnav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 14px rgba(30, 60, 114, 0.25);
+        }
+
+        .topnav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .topnav-brand {
+            font-weight: 700;
+            font-size: 1.02rem;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .topnav-brand .material-icons {
+            font-size: 1.25rem;
+            color: #ffd166;
+        }
+
+        .topnav-links {
+            display: flex;
+            gap: 22px;
+        }
+
+        .topnav-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.15s;
+            white-space: nowrap;
+        }
+
+        .topnav-links a:hover { color: #ffffff; }
+
+        @media (max-width: 520px) {
+            .topnav-brand { font-size: 0.92rem; }
+            .topnav-links { gap: 14px; }
+            .topnav-links a { font-size: 0.82rem; }
+        }
+
+        /* Header */
         header {
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: white;
@@ -33,6 +108,16 @@
         header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        header h1 .material-icons {
+            font-size: 2.2rem;
+            color: #ffd166;
         }
 
         header p {
@@ -40,8 +125,17 @@
             opacity: 0.9;
         }
 
+        /* HR ajratgich */
+        .section-divider {
+            border: none;
+            height: 1px;
+            max-width: 900px;
+            margin: 45px auto 40px;
+            background: linear-gradient(90deg, transparent 0%, #c9d3e0 20%, #c9d3e0 80%, transparent 100%);
+        }
+
         /* ==========================================
-           🧮 AQLLI KALKULYATOR BO'LIMI
+           KALKULYATOR
            ========================================== */
         .calculator-container {
             background-color: white;
@@ -59,6 +153,14 @@
             color: #1e3c72;
             margin-bottom: 10px;
             font-size: 1.3rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .calculator-container h3 .material-icons {
+            color: #2a5298;
+            font-size: 1.45rem;
         }
 
         .calculator-container p {
@@ -115,7 +217,7 @@
         }
 
         /* ==========================================
-           TOIFALI FILTRLAR BO'LIMI
+           FILTRLAR
            ========================================== */
         .filter-container {
             text-align: center;
@@ -156,7 +258,7 @@
         }
 
         /* ==========================================
-           TAOMLAR SETKASI VA KARTALARI
+           TAOMLAR
            ========================================== */
         .recipes-grid {
             display: grid;
@@ -183,6 +285,10 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
 
+        .recipe-card.is-hidden {
+            display: none !important;
+        }
+
         .badge {
             position: absolute;
             top: 15px;
@@ -197,7 +303,6 @@
             font-size: 0.85rem;
         }
 
-        /* Pul yetmagan, lekin yaqin bo'lgan taomlar stillari */
         .recipe-card.alternative-choice {
             opacity: 0.9;
             border: 2px dashed #e67e22;
@@ -222,7 +327,13 @@
             display: block;
         }
 
-        /* 16:9 Video uchun moslashuvchan konteyner */
+        .alert-icon {
+            font-size: 1rem;
+            vertical-align: -0.2em;
+            margin-right: 4px;
+            color: #d35400;
+        }
+
         .video-placeholder {
             position: relative;
             padding-bottom: 56.25%;
@@ -240,9 +351,7 @@
             border: none;
         }
 
-        .recipe-content {
-            padding: 25px;
-        }
+        .recipe-content { padding: 25px; }
 
         .recipe-content h2 {
             margin-bottom: 12px;
@@ -250,7 +359,6 @@
             color: #2c3e50;
         }
 
-        /* Keshbek va tejamkorlik maslahat oynasi */
         .saving-tip {
             background-color: #e8f4fd;
             padding: 12px;
@@ -260,6 +368,13 @@
             border-radius: 0 8px 8px 0;
             color: #2c3e50;
             line-height: 1.5;
+        }
+
+        .saving-tip .material-icons {
+            font-size: 1.05rem;
+            color: #f39c12;
+            vertical-align: -0.2em;
+            margin-right: 2px;
         }
 
         .recipe-content h3 {
@@ -286,42 +401,141 @@
             font-size: 0.95rem;
             color: #555;
         }
+
+        /* ==========================================
+           TEJASH BO'YICHA MASLAHATLAR
+           ========================================== */
+        .tips-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px 30px;
+        }
+
+        .tips-section h2 {
+            font-size: 1.7rem;
+            color: #1e3c72;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .tips-section .tips-sub {
+            text-align: center;
+            color: #6b7385;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .tip-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            border-top: 4px solid #2a5298;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .tip-card .tip-icon {
+            font-size: 2rem;
+            line-height: 1;
+            display: block;
+            margin-bottom: 14px;
+        }
+
+        .tip-card h3 {
+            font-size: 1.02rem;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .tip-card p {
+            font-size: 0.88rem;
+            color: #5b6577;
+            line-height: 1.6;
+        }
+
+        .tip-card.c-credit  { border-top-color: #2a5298; }
+        .tip-card.c-evening { border-top-color: #e67e22; }
+        .tip-card.c-market  { border-top-color: #27ae60; }
+        .tip-card.c-cook    { border-top-color: #8e44ad; }
+
+        .tip-card.c-credit  .tip-icon { color: #2a5298; }
+        .tip-card.c-evening .tip-icon { color: #e67e22; }
+        .tip-card.c-market  .tip-icon { color: #27ae60; }
+        .tip-card.c-cook    .tip-icon { color: #8e44ad; }
+
+        @media (max-width: 480px) {
+            .tips-section { padding: 10px 16px 20px; }
+            .tips-section h2 { font-size: 1.4rem; }
+            .section-divider { margin: 32px auto 28px; }
+            header h1 { font-size: 1.9rem; }
+            header h1 .material-icons { font-size: 1.7rem; }
+        }
     </style>
 </head>
 <body>
 
-<!-- Header qismi -->
+<nav class="topnav">
+    <div class="topnav-inner">
+        <a class="topnav-brand" href="#">
+            <span class="material-icons">restaurant_menu</span>
+            Musofir Taomlari
+        </a>
+        <div class="topnav-links">
+            <a href="#kalkulyator">Kalkulyator</a>
+            <a href="#retseptlar">Retseptlar</a>
+            <a href="#maslahatlar">Maslahatlar</a>
+        </div>
+    </div>
+</nav>
+
 <header>
-    <h1>🇺🇿 Musofir Taomlari</h1>
+    <h1>
+        <span class="material-icons">restaurant_menu</span>
+        Musofir Taomlari
+    </h1>
     <p>Rossiyadagi migrant aka-ukalarimiz uchun arzon, oson va tejamkor retseptlar portali</p>
 </header>
 
-<!-- 🧮 Aqlli Kalkulyator Bo'limi -->
-<section class="calculator-container">
-    <h3>🧮 Aqlli Kalkulyator</h3>
+<section class="calculator-container" id="kalkulyator">
+    <h3>
+        <span class="material-icons">calculate</span>
+        Aqlli Kalkulyator
+    </h3>
     <p>Hamyoningizdagi pul miqdorini kiriting (Masalan, 170 kiritsangiz unga yaqin taomlarni ham chiqaradi):</p>
     <div class="input-group">
         <input type="number" id="userBudget" placeholder="Masalan: 170, 210, 95" min="0">
-        <button class="calc-btn" onclick="calculateMyFood()">Taom topish</button>
+        <button type="button" class="calc-btn" id="calcBtn">Taom topish</button>
     </div>
     <div class="calc-result-text" id="calcOutput"></div>
 </section>
 
-<!-- Toifali saralash tugmalari -->
-<section class="filter-container">
+<hr class="section-divider">
+
+<section class="filter-container" id="retseptlar">
     <h4>Yoki toifa bo'yicha tekshiring:</h4>
-    <div class="filter-buttons">
-        <button class="btn active" id="btn-all" onclick="filterRecipes('all', event)">Hammasi</button>
-        <button class="btn" onclick="filterRecipes('100', event)">100 Rubl</button>
-        <button class="btn" onclick="filterRecipes('150', event)">150 Rubl</button>
-        <button class="btn" onclick="filterRecipes('300', event)">300 Rubl</button>
+    <div class="filter-buttons" id="filterButtons">
+        <button type="button" class="btn active" data-budget="all" aria-pressed="true">Hammasi</button>
+        <button type="button" class="btn" data-budget="100" aria-pressed="false">100 Rubl</button>
+        <button type="button" class="btn" data-budget="150" aria-pressed="false">150 Rubl</button>
+        <button type="button" class="btn" data-budget="300" aria-pressed="false">300 Rubl</button>
     </div>
 </section>
 
-<!-- Taomlar ro'yxati -->
 <main class="recipes-grid" id="recipes">
 
-    <!-- Post 1: 100 Rubl -->
     <div class="recipe-card" data-budget="100">
         <div class="insufficient-funds-alert"></div>
         <div class="badge">100 Rubl</div>
@@ -330,7 +544,32 @@
         </div>
         <div class="recipe-content">
             <h2>Oson Qovurilgan Tuxum</h2>
-            <div class="saving-tip">💡 <strong>Keshbek siri:</strong> "Pyaterochka" yoki "Magnit" do'konlarida keshbek kartasidan foydalaning, yig'ilgan ballarga keyingi safar tuxumni bepul olasiz!</div>
+            <div class="saving-tip">
+                <span class="material-icons">lightbulb</span>
+                <strong>Keshbek siri:</strong> "Pyaterochka" yoki "Magnit" do'konlarida keshbek kartasidan foydalaning, yig'ilgan ballarga keyingi safar tuxumni bepul olasiz!
+            </div>
+            <h3>Kerakli mahsulotlar:</h3>
+            <ul>
+                <li>Tuxum (C2 toifa, 10ta) — 85 rubl</li>
+                <li>Tuz va ozgina o'simlik yog'i</li>
+            </ul>
+            <h3>Tayyorlanishi:</h3>
+            <p>Tovaga ozgina yog' solib qizdirasiz. Tuxumlarni chaqib, ta'bga ko'ra tuz sepasiz. Olovni pastlatib, sarg'ishi pishguncha 3-4 daqiqa qovurasiz.</p>
+        </div>
+    </div>
+
+    <div class="recipe-card" data-budget="100">
+        <div class="insufficient-funds-alert"></div>
+        <div class="badge">100 Rubl</div>
+        <div class="video-placeholder">
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video darslik" allowfullscreen></iframe>
+        </div>
+        <div class="recipe-content">
+            <h2>Oson Qovurilgan Tuxum</h2>
+            <div class="saving-tip">
+                <span class="material-icons">lightbulb</span>
+                <strong>Keshbek siri:</strong> "Pyaterochka" yoki "Magnit" do'konlarida keshbek kartasidan foydalaning, yig'ilgan ballarga keyingi safar tuxumni bepul olasiz!
+            </div>
             <h3>Kerakli mahsulotlar:</h3>
             <ul>
                 <li>Tuxum (C2 toifa, 10ta) — 85 rubl</li>
@@ -349,7 +588,10 @@
         </div>
         <div class="recipe-content">
             <h2>Piyozli Tuxum-Qovurdoq</h2>
-            <div class="saving-tip">💡 <strong>Keshbek siri:</strong> Do'kon ilovasini yuklab oling, u yerda aynan piyoz va non uchun haftalik maxsus chegirmali kuponlar bo'ladi.</div>
+            <div class="saving-tip">
+                <span class="material-icons">lightbulb</span>
+                <strong>Keshbek siri:</strong> Do'kon ilovasini yuklab oling, u yerda aynan piyoz va non uchun haftalik maxsus chegirmali kuponlar bo'ladi.
+            </div>
             <h3>Kerakli mahsulotlar:</h3>
             <ul>
                 <li>Tuxum (4 dona) — 40 rubl</li>
@@ -370,7 +612,10 @@
         </div>
         <div class="recipe-content">
             <h2>Tovuqli va Kartoshkali Qozonkabob (2 kishilik)</h2>
-            <div class="saving-tip">💡 <strong>Tejamkorlik siri:</strong> Go'shtlarni kechki soat 20:00 dan keyin supermarketlardan izlang. Ko'p do'konlar o'sha vaqtda go'shtlarga 20-30% gacha sarg'ish chegirmali yorliq yopishtirishadi.</div>
+            <div class="saving-tip">
+                <span class="material-icons">lightbulb</span>
+                <strong>Tejamkorlik siri:</strong> Go'shtlarni kechki soat 20:00 dan keyin supermarketlardan izlang. Ko'p do'konlar o'sha vaqtda go'shtlarga 20-30% gacha sarg'ish chegirmali yorliq yopishtirishadi.
+            </div>
             <h3>Kerakli mahsulotlar:</h3>
             <ul>
                 <li>Tovuq soni (Golen, 500g) — 160 rubl</li>
@@ -382,100 +627,219 @@
             <p>Tovuqlarni tuzlab baland olovda qizartirib olasiz. Keyin shu yog'da kartoshkalarni ham qovurib, hammasini birga ozgina suv solib 25 daqiqa dimlaysiz.</p>
         </div>
     </div>
+</main>
 
-    <script>
-        // 1. Toifa tugmalari orqali saralash funksiyasi
-        function filterRecipes(budget, event) {
-            const outputText = document.getElementById('calcOutput');
-            outputText.style.display = 'none';
-            document.getElementById('userBudget').value = '';
+<hr class="section-divider">
 
-            if(event) {
-                const buttons = document.querySelectorAll('.btn');
-                buttons.forEach(btn => btn.classList.remove('active'));
-                event.target.classList.add('active');
-            }
+<section class="tips-section" id="maslahatlar">
+    <h2>Tejash bo'yicha 4 maslahat</h2>
+    <p class="tips-sub">Har kuni ozgina tejasangiz — oy oxirida sezilarli farq bo'ladi.</p>
 
-            const cards = document.querySelectorAll('.recipe-card');
-            cards.forEach(card => {
+    <div class="tips-grid">
+        <div class="tip-card c-credit">
+            <span class="material-icons tip-icon" aria-hidden="true">credit_card</span>
+            <h3>Keshbek ilovalari</h3>
+            <p>"Pyaterochka", "Magnit" va "Perekrestok" ilovalarida xaridning 5–10% ini keshbek sifatida qaytarib oling.</p>
+        </div>
+
+        <div class="tip-card c-evening">
+            <span class="material-icons tip-icon" aria-hidden="true">schedule</span>
+            <h3>Kechki chegirmalar</h3>
+            <p>Soat 20:00 dan keyin ko'p do'konlarda tayyor taomlar va non 30%, 50% gacha arzonlashadi.</p>
+        </div>
+
+        <div class="tip-card c-market">
+            <span class="material-icons tip-icon" aria-hidden="true">shopping_basket</span>
+            <h3>Bozordan oling</h3>
+            <p>Kartoshka, sabzi va piyozni bozordan kilosiga olsangiz, 2x – 3x barobar arzon tushadi.</p>
+        </div>
+
+        <div class="tip-card c-cook">
+            <span class="material-icons tip-icon" aria-hidden="true">soup_kitchen</span>
+            <h3>Bir marta — ikki kun</h3>
+            <p>Katta qozonda pishiring: ertangi kunga ham yetadi, gaz va vaqtni tejaydi.</p>
+        </div>
+    </div>
+</section>
+
+<script>
+    (function () {
+        'use strict';
+
+        // ============================================================
+        // ELEMENTLARNI CACHE QILISH
+        // ============================================================
+        const cards          = Array.from(document.querySelectorAll('.recipe-card'));
+        const filterButtons  = Array.from(document.querySelectorAll('#filterButtons .btn'));
+        const userBudgetInput = document.getElementById('userBudget');
+        const calcOutput      = document.getElementById('calcOutput');
+        const calcBtn         = document.getElementById('calcBtn');
+
+        // ============================================================
+        // YORDAMCHI: kalkulyator natijasini tozalash
+        // ============================================================
+        function resetCalcOutput() {
+            if (!calcOutput) return;
+            calcOutput.style.display = 'none';
+            calcOutput.textContent = '';
+        }
+
+        // ============================================================
+        // YORDAMCHI: kartani ko'rsatish / yashirish
+        // ============================================================
+        function showCard(card) {
+            card.classList.remove('is-hidden');
+            card.style.display = 'flex';
+        }
+
+        function hideCard(card) {
+            card.classList.add('is-hidden');
+            card.style.display = 'none';
+        }
+
+        // ============================================================
+        // FILTR — toifa tugmalari uchun
+        // ============================================================
+        function applyFilter(budget) {
+            resetCalcOutput();
+
+            cards.forEach(function (card) {
+                // Oldingi kalkulyatordan qolgan holatni tozalash
                 card.classList.remove('alternative-choice');
-                if (budget === 'all') {
-                    card.style.display = 'flex';
+
+                var cardBudget = card.getAttribute('data-budget');
+                var shouldShow = (budget === 'all') || (cardBudget === budget);
+
+                if (shouldShow) {
+                    showCard(card);
                 } else {
-                    if (card.getAttribute('data-budget') === budget) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
+                    hideCard(card);
                 }
             });
         }
 
-        // 2. 🧮 Haqiqiy va yaqin narxlarni hisoblovchi kalkulyator funksiyasi
-        function calculateMyFood() {
-            const userInput = document.getElementById('userBudget').value;
-            const outputText = document.getElementById('calcOutput');
-            const cards = document.querySelectorAll('.recipe-card');
+        // Har bir filtr tugmasiga alohida listener
+        filterButtons.forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
 
-            if (!userInput || userInput <= 0) {
-                outputText.style.display = 'block';
-                outputText.style.color = '#e74c3c';
-                outputText.innerText = "Iltimos, to'g'ri pul miqdorini kiriting!";
+                // Active holatni yangilash
+                filterButtons.forEach(function (b) {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-pressed', 'false');
+                });
+                btn.classList.add('active');
+                btn.setAttribute('aria-pressed', 'true');
+
+                // Inputni tozalash
+                if (userBudgetInput) userBudgetInput.value = '';
+
+                // Filtrni qo'llash
+                var budget = btn.getAttribute('data-budget') || 'all';
+                applyFilter(budget);
+            });
+        });
+
+        // ============================================================
+        // KALKULYATOR
+        // ============================================================
+        function calculateMyFood() {
+            if (!userBudgetInput || !calcOutput) return;
+
+            var rawValue = String(userBudgetInput.value).trim();
+            var userMoney = parseInt(rawValue, 10);
+
+            // Validatsiya
+            if (!rawValue || isNaN(userMoney) || userMoney <= 0) {
+                calcOutput.style.display = 'block';
+                calcOutput.style.color = '#e74c3c';
+                calcOutput.textContent = "Iltimos, to'g'ri pul miqdorini kiriting!";
                 return;
             }
 
-            const buttons = document.querySelectorAll('.btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
+            // Filtr tugmalaridan active holatni olib tashlash
+            filterButtons.forEach(function (b) {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
 
-            const userMoney = parseInt(userInput);
-            let exactMatchCount = 0;
-            let closestAlternative = null;
-            let minPriceDifference = Infinity;
+            var exactMatches = 0;
+            var closestCard  = null;
+            var closestDiff  = Infinity;
 
-            cards.forEach(card => {
+            // Har bir kartani tekshirish
+            cards.forEach(function (card) {
                 card.classList.remove('alternative-choice');
-                card.style.display = 'none';
 
-                const cardCost = parseInt(card.getAttribute('data-budget'));
+                var cardCost = parseInt(card.getAttribute('data-budget'), 10);
 
                 if (userMoney >= cardCost) {
-                    card.style.display = 'flex';
-                    exactMatchCount++;
+                    showCard(card);
+                    exactMatches++;
                 } else {
-                    const difference = cardCost - userMoney;
-                    if (difference < minPriceDifference) {
-                        minPriceDifference = difference;
-                        closestAlternative = card;
+                    hideCard(card);
+                    var diff = cardCost - userMoney;
+                    if (diff < closestDiff) {
+                        closestDiff = diff;
+                        closestCard = card;
                     }
                 }
             });
 
-            outputText.style.display = 'block';
+            // Natija matni
+            calcOutput.style.display = 'block';
 
-            if (exactMatchCount > 0) {
-                outputText.style.color = '#27ae60';
-                outputText.innerText = `Sizning ${userMoney} rublingizga to'g'ri keladigan ${exactMatchCount} ta taom topildi!`;
+            if (exactMatches > 0) {
+                calcOutput.style.color = '#27ae60';
+                calcOutput.textContent =
+                    "Sizning " + userMoney + " rublingizga to'g'ri keladigan " +
+                    exactMatches + " ta taom topildi!";
 
-                // Agar puli yetgandan tashqari, sal qimmatroq yaqin taom bo'lsa uni ham "Tavsiya" sifatida ko'rsatish
-                if (closestAlternative) {
-                    closestAlternative.style.display = 'flex';
-                    closestAlternative.classList.add('alternative-choice');
-                    const alertZone = closestAlternative.querySelector('.insufficient-funds-alert');
-                    alertZone.innerText = `⚠️ Ushbu taomga yana ${minPriceDifference} rubl yetmadi. Xonadoshingiz bilan birlashsangiz bo'ladi!`;
+                if (closestCard) {
+                    showCard(closestCard);
+                    closestCard.classList.add('alternative-choice');
+                    var alertZone = closestCard.querySelector('.insufficient-funds-alert');
+                    if (alertZone) {
+                        alertZone.innerHTML =
+                            '<span class="material-icons alert-icon">warning</span> Ushbu taomga yana ' +
+                            closestDiff + " rubl yetmadi. Xonadoshingiz bilan birlashsangiz bo'ladi!";
+                    }
                 }
             } else {
-                // Agar umuman puli yetmasa, faqat eng yaqinini ko'rsatadi
-                outputText.style.color = '#e67e22';
-                outputText.innerText = `Afsuski, ${userMoney} rublga yetadigan taom yo'q. Sizga eng yaqin variantni ko'rsatmoqdamiz:`;
+                calcOutput.style.color = '#e67e22';
+                calcOutput.textContent =
+                    "Afsuski, " + userMoney + " rublga yetadigan taom yo'q. " +
+                    "Sizga eng yaqin variantni ko'rsatmoqdamiz:";
 
-                if (closestAlternative) {
-                    closestAlternative.style.display = 'flex';
-                    closestAlternative.classList.add('alternative-choice');
-                    const alertZone = closestAlternative.querySelector('.insufficient-funds-alert');
-                    alertZone.innerText = `⚠️ Ushbu taomni tayyorlash uchun sizga yana ${minPriceDifference} rubl kerak.`;
+                if (closestCard) {
+                    showCard(closestCard);
+                    closestCard.classList.add('alternative-choice');
+                    var alertZone2 = closestCard.querySelector('.insufficient-funds-alert');
+                    if (alertZone2) {
+                        alertZone2.innerHTML =
+                            '<span class="material-icons alert-icon">warning</span> Ushbu taomni tayyorlash uchun sizga yana ' +
+                            closestDiff + " rubl kerak.";
+                    }
                 }
             }
         }
-    </script>
+
+        // Kalkulyator tugmasi
+        if (calcBtn) {
+            calcBtn.addEventListener('click', calculateMyFood);
+        }
+
+        // Enter tugmasi bilan qidirish
+        if (userBudgetInput) {
+            userBudgetInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    calculateMyFood();
+                }
+            });
+        }
+
+    })();
+</script>
 </body>
 </html>
