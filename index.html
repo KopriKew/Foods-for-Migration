@@ -258,7 +258,7 @@
         }
 
         /* ==========================================
-           TAOMLAR
+           TAOMLAR KARTALARI
            ========================================== */
         .recipes-grid {
             display: grid;
@@ -334,23 +334,181 @@
             color: #d35400;
         }
 
-        .video-placeholder {
+        /* ==========================================
+           VIDEO PLAYER TANLOVI (Yangi komponent)
+           ========================================== */
+        .video-box {
             position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
             overflow: hidden;
-            background-color: #000;
         }
 
-        .video-placeholder iframe {
+        .video-selector {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            text-align: center;
+            overflow: auto;
+        }
+
+        .video-hint {
+            font-size: 0.82rem;
+            opacity: 0.85;
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+        }
+
+        .video-hint .material-icons {
+            font-size: 1rem;
+            color: #ffd166;
+        }
+
+        .platform-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .platform-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: inherit;
+            transition: background 0.15s, transform 0.15s;
+        }
+
+        .platform-btn:hover {
+            background: rgba(255, 255, 255, 0.22);
+            transform: translateY(-1px);
+        }
+
+        .platform-btn .p-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .platform-btn.yt .p-dot { background: #ff3b3b; }
+        .platform-btn.vk .p-dot { background: #0077ff; }
+        .platform-btn.rt .p-dot { background: #f7b32b; }
+
+        .platform-btn .p-arrow {
+            font-size: 0.75rem;
+            opacity: 0.55;
+        }
+
+        .link-input-row {
+            display: flex;
+            gap: 5px;
+            width: 100%;
+            max-width: 290px;
+        }
+
+        .video-link-input {
+            flex: 1;
+            min-width: 0;
+            padding: 7px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-size: 0.75rem;
+            outline: none;
+            font-family: inherit;
+            transition: border-color 0.15s, background 0.15s;
+        }
+
+        .video-link-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.72rem;
+        }
+
+        .video-link-input:focus {
+            border-color: rgba(255, 255, 255, 0.55);
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .video-link-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: #ffd166;
+            color: #1a1a2e;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            padding: 0;
+            transition: background 0.15s;
+        }
+
+        .video-link-btn:hover { background: #ffc933; }
+        .video-link-btn .material-icons { font-size: 1.05rem; }
+
+        /* O'rnatilgan video holati */
+        .video-box.is-playing { background: #000; }
+
+        .video-player-wrap {
+            position: absolute;
+            inset: 0;
+        }
+
+        .video-player-wrap iframe {
             width: 100%;
             height: 100%;
             border: none;
+            display: block;
         }
 
+        .video-back-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            z-index: 5;
+            transition: background 0.15s;
+        }
+
+        .video-back-btn:hover { background: rgba(0, 0, 0, 0.88); }
+        .video-back-btn .material-icons { font-size: 1.05rem; }
+
+        /* ==========================================
+           KONTENT
+           ========================================== */
         .recipe-content { padding: 25px; }
 
         .recipe-content h2 {
@@ -403,7 +561,7 @@
         }
 
         /* ==========================================
-           TEJASH BO'YICHA MASLAHATLAR
+           MASLAHATLAR
            ========================================== */
         .tips-section {
             max-width: 1200px;
@@ -539,31 +697,27 @@
     <div class="recipe-card" data-budget="100">
         <div class="insufficient-funds-alert"></div>
         <div class="badge">100 Rubl</div>
-        <div class="video-placeholder">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video darslik" allowfullscreen></iframe>
-        </div>
-        <div class="recipe-content">
-            <h2>Oson Qovurilgan Tuxum</h2>
-            <div class="saving-tip">
-                <span class="material-icons">lightbulb</span>
-                <strong>Keshbek siri:</strong> "Pyaterochka" yoki "Magnit" do'konlarida keshbek kartasidan foydalaning, yig'ilgan ballarga keyingi safar tuxumni bepul olasiz!
-            </div>
-            <h3>Kerakli mahsulotlar:</h3>
-            <ul>
-                <li>Tuxum (C2 toifa, 10ta) — 85 rubl</li>
-                <li>Tuz va ozgina o'simlik yog'i</li>
-            </ul>
-            <h3>Tayyorlanishi:</h3>
-            <p>Tovaga ozgina yog' solib qizdirasiz. Tuxumlarni chaqib, ta'bga ko'ra tuz sepasiz. Olovni pastlatib, sarg'ishi pishguncha 3-4 daqiqa qovurasiz.</p>
-        </div>
-    </div>
 
-    <div class="recipe-card" data-budget="100">
-        <div class="insufficient-funds-alert"></div>
-        <div class="badge">100 Rubl</div>
-        <div class="video-placeholder">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video darslik" allowfullscreen></iframe>
+        <!-- VIDEO TANLOV -->
+        <div class="video-box" data-recipe="Oson Qovurilgan Tuxum retsept">
+            <div class="video-selector">
+                <p class="video-hint">
+                    <span class="material-icons">smart_display</span>
+                    Video qo'llanma
+                </p>
+                <div class="platform-buttons">
+                    <button type="button" class="platform-btn yt" data-platform="youtube" title="YouTube da qidirish">
+                        <span class="p-dot"></span>YouTube
+                        <span class="p-arrow material-icons">open_in_new</span>
+                    </button>
+                    <button type="button" class="platform-btn vk" data-platform="vk" title="VK Video da qidirish">
+                        <span class="p-dot"></span>VK Video
+                        <span class="p-arrow material-icons">open_in_new</span>
+                    </button>
+                </div>
+            </div>
         </div>
+
         <div class="recipe-content">
             <h2>Oson Qovurilgan Tuxum</h2>
             <div class="saving-tip">
@@ -583,9 +737,26 @@
     <div class="recipe-card" data-budget="150">
         <div class="insufficient-funds-alert"></div>
         <div class="badge">150 Rubl</div>
-        <div class="video-placeholder">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video darslik" allowfullscreen></iframe>
+
+        <div class="video-box" data-recipe="Piyozli Tuxum Qovurdoq retsept">
+            <div class="video-selector">
+                <p class="video-hint">
+                    <span class="material-icons">smart_display</span>
+                    Video qo'llanma
+                </p>
+                <div class="platform-buttons">
+                    <button type="button" class="platform-btn yt" data-platform="youtube" title="YouTube da qidirish">
+                        <span class="p-dot"></span>YouTube
+                        <span class="p-arrow material-icons">open_in_new</span>
+                    </button>
+                    <button type="button" class="platform-btn vk" data-platform="vk" title="VK Video da qidirish">
+                        <span class="p-dot"></span>VK Video
+                        <span class="p-arrow material-icons">open_in_new</span>
+                    </button>
+                </div>
+            </div>
         </div>
+
         <div class="recipe-content">
             <h2>Piyozli Tuxum-Qovurdoq</h2>
             <div class="saving-tip">
@@ -607,9 +778,26 @@
     <div class="recipe-card" data-budget="300">
         <div class="insufficient-funds-alert"></div>
         <div class="badge">300 Rubl</div>
-        <div class="video-placeholder">
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video darslik" allowfullscreen></iframe>
+
+        <div class="video-box" data-recipe="Tovuqli Kartoshkali Qozonkabob retsept">
+            <div class="video-selector">
+                <p class="video-hint">
+                    <span class="material-icons">smart_display</span>
+                    Video qo'llanma
+                </p>
+                <div class="platform-buttons">
+                    <button type="button" class="platform-btn yt" data-platform="youtube" title="YouTube da qidirish">
+                        <span class="p-dot"></span>YouTube
+                        <span class="p-arrow material-icons">open_in_new</span>
+                    </button>
+                    <button type="button" class="platform-btn vk" data-platform="vk" title="VK Video da qidirish">
+                        <span class="p-dot"></span>VK Video
+                        <span class="p-arrow material-icons">open_in_new</span>
+                    </button>
+                </div>
+            </div>
         </div>
+
         <div class="recipe-content">
             <h2>Tovuqli va Kartoshkali Qozonkabob (2 kishilik)</h2>
             <div class="saving-tip">
@@ -667,26 +855,20 @@
         'use strict';
 
         // ============================================================
-        // ELEMENTLARNI CACHE QILISH
+        // FILTR + KALKULYATOR (oldingi tuzatilgan versiya)
         // ============================================================
-        const cards          = Array.from(document.querySelectorAll('.recipe-card'));
-        const filterButtons  = Array.from(document.querySelectorAll('#filterButtons .btn'));
+        const cards           = Array.from(document.querySelectorAll('.recipe-card'));
+        const filterButtons   = Array.from(document.querySelectorAll('#filterButtons .btn'));
         const userBudgetInput = document.getElementById('userBudget');
         const calcOutput      = document.getElementById('calcOutput');
         const calcBtn         = document.getElementById('calcBtn');
 
-        // ============================================================
-        // YORDAMCHI: kalkulyator natijasini tozalash
-        // ============================================================
         function resetCalcOutput() {
             if (!calcOutput) return;
             calcOutput.style.display = 'none';
             calcOutput.textContent = '';
         }
 
-        // ============================================================
-        // YORDAMCHI: kartani ko'rsatish / yashirish
-        // ============================================================
         function showCard(card) {
             card.classList.remove('is-hidden');
             card.style.display = 'flex';
@@ -697,59 +879,35 @@
             card.style.display = 'none';
         }
 
-        // ============================================================
-        // FILTR — toifa tugmalari uchun
-        // ============================================================
         function applyFilter(budget) {
             resetCalcOutput();
-
             cards.forEach(function (card) {
-                // Oldingi kalkulyatordan qolgan holatni tozalash
                 card.classList.remove('alternative-choice');
-
                 var cardBudget = card.getAttribute('data-budget');
                 var shouldShow = (budget === 'all') || (cardBudget === budget);
-
-                if (shouldShow) {
-                    showCard(card);
-                } else {
-                    hideCard(card);
-                }
+                shouldShow ? showCard(card) : hideCard(card);
             });
         }
 
-        // Har bir filtr tugmasiga alohida listener
         filterButtons.forEach(function (btn) {
             btn.addEventListener('click', function (e) {
                 e.preventDefault();
-
-                // Active holatni yangilash
                 filterButtons.forEach(function (b) {
                     b.classList.remove('active');
                     b.setAttribute('aria-pressed', 'false');
                 });
                 btn.classList.add('active');
                 btn.setAttribute('aria-pressed', 'true');
-
-                // Inputni tozalash
                 if (userBudgetInput) userBudgetInput.value = '';
-
-                // Filtrni qo'llash
-                var budget = btn.getAttribute('data-budget') || 'all';
-                applyFilter(budget);
+                applyFilter(btn.getAttribute('data-budget') || 'all');
             });
         });
 
-        // ============================================================
-        // KALKULYATOR
-        // ============================================================
         function calculateMyFood() {
             if (!userBudgetInput || !calcOutput) return;
-
             var rawValue = String(userBudgetInput.value).trim();
             var userMoney = parseInt(rawValue, 10);
 
-            // Validatsiya
             if (!rawValue || isNaN(userMoney) || userMoney <= 0) {
                 calcOutput.style.display = 'block';
                 calcOutput.style.color = '#e74c3c';
@@ -757,7 +915,6 @@
                 return;
             }
 
-            // Filtr tugmalaridan active holatni olib tashlash
             filterButtons.forEach(function (b) {
                 b.classList.remove('active');
                 b.setAttribute('aria-pressed', 'false');
@@ -767,12 +924,9 @@
             var closestCard  = null;
             var closestDiff  = Infinity;
 
-            // Har bir kartani tekshirish
             cards.forEach(function (card) {
                 card.classList.remove('alternative-choice');
-
                 var cardCost = parseInt(card.getAttribute('data-budget'), 10);
-
                 if (userMoney >= cardCost) {
                     showCard(card);
                     exactMatches++;
@@ -786,7 +940,6 @@
                 }
             });
 
-            // Natija matni
             calcOutput.style.display = 'block';
 
             if (exactMatches > 0) {
@@ -794,47 +947,161 @@
                 calcOutput.textContent =
                     "Sizning " + userMoney + " rublingizga to'g'ri keladigan " +
                     exactMatches + " ta taom topildi!";
-
                 if (closestCard) {
                     showCard(closestCard);
                     closestCard.classList.add('alternative-choice');
-                    var alertZone = closestCard.querySelector('.insufficient-funds-alert');
-                    if (alertZone) {
-                        alertZone.innerHTML =
-                            '<span class="material-icons alert-icon">warning</span> Ushbu taomga yana ' +
-                            closestDiff + " rubl yetmadi. Xonadoshingiz bilan birlashsangiz bo'ladi!";
-                    }
+                    var az = closestCard.querySelector('.insufficient-funds-alert');
+                    if (az) az.innerHTML =
+                        '<span class="material-icons alert-icon">warning</span> Ushbu taomga yana ' +
+                        closestDiff + " rubl yetmadi. Xonadoshingiz bilan birlashsangiz bo'ladi!";
                 }
             } else {
                 calcOutput.style.color = '#e67e22';
                 calcOutput.textContent =
                     "Afsuski, " + userMoney + " rublga yetadigan taom yo'q. " +
                     "Sizga eng yaqin variantni ko'rsatmoqdamiz:";
-
                 if (closestCard) {
                     showCard(closestCard);
                     closestCard.classList.add('alternative-choice');
-                    var alertZone2 = closestCard.querySelector('.insufficient-funds-alert');
-                    if (alertZone2) {
-                        alertZone2.innerHTML =
-                            '<span class="material-icons alert-icon">warning</span> Ushbu taomni tayyorlash uchun sizga yana ' +
-                            closestDiff + " rubl kerak.";
-                    }
+                    var az2 = closestCard.querySelector('.insufficient-funds-alert');
+                    if (az2) az2.innerHTML =
+                        '<span class="material-icons alert-icon">warning</span> Ushbu taomni tayyorlash uchun sizga yana ' +
+                        closestDiff + " rubl kerak.";
                 }
             }
         }
 
-        // Kalkulyator tugmasi
-        if (calcBtn) {
-            calcBtn.addEventListener('click', calculateMyFood);
+        if (calcBtn) calcBtn.addEventListener('click', calculateMyFood);
+        if (userBudgetInput) userBudgetInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') { e.preventDefault(); calculateMyFood(); }
+        });
+
+        // ============================================================
+        // VIDEO PLAYER TANLOVI
+        // ============================================================
+        const videoPlatforms = {
+            youtube: {
+                search: function (q) {
+                    return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q);
+                },
+                embed: function (url) {
+                    var id = extractYouTubeId(url);
+                    return id ? 'https://www.youtube.com/embed/' + id + '?rel=0' : null;
+                }
+            },
+            vk: {
+                search: function (q) {
+                    return 'https://vk.com/video?q=' + encodeURIComponent(q);
+                },
+                embed: function (url) {
+                    var m = url.match(/(?:vk\.com|vkvideo\.ru)\/video(-?\d+)_(\d+)/);
+                    return m ? 'https://vk.com/video_ext.php?oid=' + m[1] + '&id=' + m[2] + '&hd=2' : null;
+                }
+            },
+        };
+
+        function extractYouTubeId(url) {
+            var patterns = [
+                /(?:youtube\.com\/watch\?(?:.*&)?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/
+            ];
+            for (var i = 0; i < patterns.length; i++) {
+                var m = url.match(patterns[i]);
+                if (m) return m[1];
+            }
+            return null;
         }
 
-        // Enter tugmasi bilan qidirish
-        if (userBudgetInput) {
-            userBudgetInput.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter') {
+        function resolveEmbedUrl(url) {
+            var platforms = ['youtube', 'vk'];
+            for (var i = 0; i < platforms.length; i++) {
+                var result = videoPlatforms[platforms[i]].embed(url);
+                if (result) return result;
+            }
+            return null;
+        }
+
+        function loadEmbed(box, embedUrl) {
+            if (!box._originalHTML) {
+                box._originalHTML = box.innerHTML;
+            }
+            box.classList.add('is-playing');
+            box.innerHTML =
+                '<div class="video-player-wrap">' +
+                '<iframe src="' + embedUrl + '" ' +
+                'allow="autoplay; encrypted-media; fullscreen; picture-in-picture" ' +
+                'allowfullscreen loading="lazy" ' +
+                'referrerpolicy="strict-origin-when-cross-origin"></iframe>' +
+                '<button type="button" class="video-back-btn" aria-label="Boshqa video tanlash" title="Orqaga">' +
+                '<span class="material-icons">close</span>' +
+                '</button>' +
+                '</div>';
+        }
+
+        function restoreSelector(box) {
+            if (box._originalHTML) {
+                box.innerHTML = box._originalHTML;
+                box._originalHTML = null;
+                box.classList.remove('is-playing');
+            }
+        }
+
+        // Event delegation — video-box ichidagi barcha tugmalar
+        var recipesRoot = document.getElementById('recipes');
+        if (recipesRoot) {
+            recipesRoot.addEventListener('click', function (e) {
+
+                // 1) Platforma tugmasi — search ochish
+                var platformBtn = e.target.closest('.platform-btn');
+                if (platformBtn) {
+                    var box = platformBtn.closest('.video-box');
+                    var platform = platformBtn.getAttribute('data-platform');
+                    var recipeName = box ? box.getAttribute('data-recipe') : '';
+                    if (videoPlatforms[platform] && recipeName) {
+                        window.open(videoPlatforms[platform].search(recipeName), '_blank', 'noopener');
+                    }
+                    return;
+                }
+
+                // 2) Havoladan yuklash tugmasi
+                var linkBtn = e.target.closest('.video-link-btn');
+                if (linkBtn) {
+                    var box2 = linkBtn.closest('.video-box');
+                    var input = box2.querySelector('.video-link-input');
+                    var url = input ? input.value.trim() : '';
+                    if (!url) { if (input) input.focus(); return; }
+
+                    var embedUrl = resolveEmbedUrl(url);
+                    if (embedUrl) {
+                        loadEmbed(box2, embedUrl);
+                    } else {
+                        // Xato holati
+                        input.style.borderColor = '#e74c3c';
+                        var oldPlaceholder = input.getAttribute('placeholder');
+                        input.setAttribute('placeholder', "Qo'llab-quvvatlanmaydi");
+                        setTimeout(function () {
+                            input.style.borderColor = '';
+                            input.setAttribute('placeholder', oldPlaceholder || 'Video havolasi...');
+                        }, 2200);
+                    }
+                    return;
+                }
+
+                // 3) Orqaga qaytish
+                var backBtn = e.target.closest('.video-back-btn');
+                if (backBtn) {
+                    var box3 = backBtn.closest('.video-box');
+                    restoreSelector(box3);
+                    return;
+                }
+            });
+
+            // Enter bosilganda havola yuklash
+            recipesRoot.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && e.target.classList.contains('video-link-input')) {
                     e.preventDefault();
-                    calculateMyFood();
+                    var box = e.target.closest('.video-box');
+                    var linkBtn = box.querySelector('.video-link-btn');
+                    if (linkBtn) linkBtn.click();
                 }
             });
         }
