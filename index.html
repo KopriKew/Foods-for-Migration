@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musofir Taomlari - Migrantlar uchun oson retseptlar</title>
+
+    <!-- ============ PWA META ============ -->
+    <meta name="theme-color" content="#1e3c72">
+    <meta name="description" content="Migrantlar uchun arzon, oson va tejamkor retseptlar">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" href="./icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="./icon.svg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Musofir Taomlari">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        /* ==========================================
+           CSS RESET & BASE STYLES
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            padding-bottom: 50px;
+        }
+
+        section[id] { scroll-margin-top: 78px; }
+
+        .material-icons {
+            line-height: 1;
+            vertical-align: -0.15em;
+        }
+
+        /* ==========================================
+           TOP NAVBAR
+           ========================================== */
+        .topnav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 14px rgba(30, 60, 114, 0.25);
+        }
+
+        .topnav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .topnav-brand {
+            font-weight: 700;
+            font-size: 1.02rem;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .topnav-brand .material-icons {
+            font-size: 1.25rem;
+            color: #ffd166;
+        }
+
+        .topnav-links {
+            display: flex;
+            gap: 22px;
+            align-items: center;
+        }
+
+        .topnav-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.15s;
+            white-space: nowrap;
+        }
+
+        .topnav-links a:hover { color: #ffffff; }
+
+        .install-btn {
+            display: none;
+            align-items: center;
+            gap: 5px;
+            background: #ffd166;
+            color: #1e3c72;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.15s, transform 0.15s;
+            white-space: nowrap;
+        }
+        .install-btn:hover { background: #ffc933; transform: translateY(-1px); }
+        .install-btn.is-visible { display: inline-flex; }
+        .install-btn .material-icons { font-size: 1.05rem; }
+
+        @media (max-width: 620px) {
+            .topnav-brand { font-size: 0.92rem; }
+            .topnav-links { gap: 12px; }
+            .topnav-links a { font-size: 0.8rem; }
+            .install-btn span:not(.material-icons) { display: none; }
+            .install-btn { padding: 7px; width: 32px; height: 32px; justify-content: center; }
+        }
+
+        @media (max-width: 400px) {
+            .topnav-links a:not(:last-child) { display: none; }
+        }
+
+        /* OFFLINE TOAST */
+        .offline-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            max-width: 420px;
+            margin: 0 auto;
+            background: #d35400;
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 8px 28px rgba(211, 84, 0, 0.45);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transform: translateY(150%);
+            transition: transform 0.3s ease;
+        }
+        .offline-toast.is-visible { transform: translateY(0); }
+        .offline-toast .material-icons { font-size: 1.1rem; }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        header h1 .material-icons {
+            font-size: 2.2rem;
+            color: #ffd166;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .section-divider {
+            border: none;
+            height: 1px;
+            max-width: 900px;
+            margin: 45px auto 40px;
+            background: linear-gradient(90deg, transparent 0%, #c9d3e0 20%, #c9d3e0 80%, transparent 100%);
+        }
+
+        /* KALKULYATOR */
+        .calculator-container {
+            background-color: white;
+            max-width: 600px;
+            margin: -25px auto 30px auto;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            z-index: 20;
+        }
+
+        .calculator-container h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .calculator-container h3 .material-icons {
+            color: #2a5298;
+            font-size: 1.45rem;
+        }
+
+        .calculator-container p {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #2a5298;
+            box-shadow: 0 0 8px rgba(42, 82, 152, 0.2);
+        }
+
+        .calc-btn {
+            background-color: #2a5298;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .calc-btn:hover { background-color: #1e3c72; }
+
+        .calc-result-text {
+            margin-top: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            display: none;
+            line-height: 1.4;
+        }
+
+        /* FILTR + SEARCH */
+        .filter-container {
+            text-align: center;
+            margin: 20px auto 30px auto;
+            max-width: 700px;
+            padding: 0 20px;
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 520px;
+            margin: 0 auto 20px;
+        }
+
+        .search-box .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9aa3b2;
+            pointer-events: none;
+            font-size: 1.25rem;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 13px 48px 13px 48px;
+            border: 2px solid #e0e4ea;
+            border-radius: 999px;
+            font-size: 0.98rem;
+            font-family: inherit;
+            outline: none;
+            background: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        #searchInput:focus {
+            border-color: #2a5298;
+            box-shadow: 0 0 0 4px rgba(42, 82, 152, 0.1);
+        }
+
+        #searchInput::placeholder { color: #9aa3b2; }
+
+        .clear-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: #f0f2f5;
+            color: #6b7385;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: background 0.15s, color 0.15s;
+        }
+        .clear-btn:hover { background: #e4e8ee; color: #333; }
+        .clear-btn .material-icons { font-size: 1.05rem; }
+
+        .filter-container h4 {
+            margin-bottom: 12px;
+            color: #2a5298;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: 2px solid #2a5298;
+            background-color: white;
+            color: #2a5298;
+            cursor: pointer;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: 0.2s ease;
+            font-size: 0.9rem;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn.active, .btn:hover {
+            background-color: #2a5298;
+            color: white;
+            box-shadow: 0 4px 10px rgba(42, 82, 152, 0.25);
+        }
+
+        .btn.fav-toggle {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+        .btn.fav-toggle .material-icons { font-size: 1.15rem; }
+        .btn.fav-toggle:hover,
+        .btn.fav-toggle.active {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+            color: white;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+        }
+
+        /* KARTALAR */
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .recipe-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .recipe-card.is-hidden { display: none !important; }
+
+        .fav-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            z-index: 15;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.96);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            color: #b0b6c0;
+            transition: transform 0.15s, color 0.15s, background 0.15s;
+            padding: 0;
+        }
+        .fav-btn:hover { transform: scale(1.08); color: #e74c3c; background: #fff; }
+        .fav-btn .material-icons { font-size: 1.3rem; }
+        .fav-btn.is-fav { color: #e74c3c; background: #fff; }
+        .fav-btn.is-fav .material-icons { animation: heart-pop 0.3s ease; }
+
+        @keyframes heart-pop {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.25); }
+            100% { transform: scale(1); }
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #e74c3c;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 0.85rem;
+        }
+
+        .recipe-card.alternative-choice {
+            opacity: 0.9;
+            border: 2px dashed #e67e22;
+        }
+        .recipe-card.alternative-choice .badge { background-color: #e67e22; }
+
+        .insufficient-funds-alert {
+            background-color: #ffeaa7;
+            color: #d35400;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid #fab1a0;
+            display: none;
+        }
+        .recipe-card.alternative-choice .insufficient-funds-alert { display: block; }
+
+        .alert-icon {
+            font-size: 1rem;
+            vertical-align: -0.2em;
+            margin-right: 4px;
+            color: #d35400;
+        }
+
+        /* VIDEO (faqat platforma tanlovi, pleer yo'q) */
+        .video-box {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .video-selector {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            text-align: center;
+            overflow: auto;
+        }
+
+        .video-hint {
+            font-size: 0.82rem;
+            opacity: 0.85;
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+        }
+        .video-hint .material-icons { font-size: 1rem; color: #ffd166; }
+
+        .platform-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .platform-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: inherit;
+            transition: background 0.15s, transform 0.15s;
+        }
+        .platform-btn:hover {
+            background: rgba(255, 255, 255, 0.22);
+            transform: translateY(-1px);
+        }
+        .platform-btn .p-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .platform-btn.yt .p-dot { background: #ff3b3b; }
+        .platform-btn.vk .p-dot { background: #0077ff; }
+        .platform-btn .p-arrow { font-size: 0.75rem; opacity: 0.55; }
+
+        /* CONTENT */
+        .recipe-content { padding: 25px; }
+
+        .recipe-content h2 {
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+            color: #2c3e50;
+            padding-right: 44px;
+        }
+
+        .saving-tip {
+            background-color: #e8f4fd;
+            padding: 12px;
+            border-left: 4px solid #3498db;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+        .saving-tip .material-icons {
+            font-size: 1.05rem;
+            color: #f39c12;
+            vertical-align: -0.2em;
+            margin-right: 2px;
+        }
+
+        .recipe-content h3 {
+            font-size: 1.1rem;
+            margin: 15px 0 8px 0;
+            color: #34495e;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 4px;
+        }
+
+        .recipe-content ul { margin-left: 20px; margin-bottom: 20px; }
+        .recipe-content ul li {
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: #444;
+        }
+        .recipe-content p {
+            line-height: 1.6;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            color: #8a93a1;
+        }
+        .no-results .material-icons {
+            font-size: 3.5rem;
+            color: #c5cbd4;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .no-results p { font-size: 0.98rem; font-weight: 500; }
+        .no-results .no-results-sub {
+            font-size: 0.85rem;
+            color: #aab1bd;
+            margin-top: 6px;
+        }
+
+        /* TIPS */
+        .tips-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px 30px;
+        }
+        .tips-section h2 {
+            font-size: 1.7rem;
+            color: #1e3c72;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .tips-section .tips-sub {
+            text-align: center;
+            color: #6b7385;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .tip-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px 22px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            border-top: 4px solid #2a5298;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .tip-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+        }
+        .tip-card .tip-icon {
+            font-size: 2rem;
+            line-height: 1;
+            display: block;
+            margin-bottom: 14px;
+        }
+        .tip-card h3 {
+            font-size: 1.02rem;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+        .tip-card p {
+            font-size: 0.88rem;
+            color: #5b6577;
+            line-height: 1.6;
+        }
+
+        .tip-card.c-credit  { border-top-color: #2a5298; }
+        .tip-card.c-evening { border-top-color: #e67e22; }
+        .tip-card.c-market  { border-top-color: #27ae60; }
+        .tip-card.c-cook    { border-top-color: #8e44ad; }
+        .tip-card.c-credit  .tip-icon { color: #2a5298; }
+        .tip-card.c-evening .tip-icon { color: #e67e22; }
+        .tip-card.c-market  .tip-icon { color: #27ae60; }
+        .tip-card.c-cook    .tip-icon { color: #8e44ad; }
+
+        @media (max-width: 480px) {
+            .tips-section { padding: 10px 16px 20px; }
+            .tips-section h2 { font-size: 1.4rem; }
+            .section-divider { margin: 32px auto 28px; }
+            header h1 { font-size: 1.9rem; }
+            header h1 .material-icons { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="offline-toast" id="offlineToast" role="status" aria-live="polite">
+    <span class="material-icons">cloud_off</span>
+    Oflayn rejim — barcha retseptlar ishlaydi
+</div>
+
+<nav class="topnav">
+    <div class="topnav-inner">
+        <a class="topnav-brand" href="#">
+            <span class="material-icons">restaurant_menu</span>
+            Musofir Taomlari
+        </a>
+        <div class="topnav-links">
+            <a href="#kalkulyator">Kalkulyator</a>
+            <a href="#retseptlar">Retseptlar</a>
+            <a href="#maslahatlar">Maslahatlar</a>
+            <button type="button" class="install-btn" id="installBtn" aria-label="Ilovani o'rnatish">
+                <span class="material-icons">download</span>
+                <span>O'rnatish</span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<header>
+    <h1>
+        <span class="material-icons">restaurant_menu</span>
+        Musofir Taomlari
+    </h1>
+    <p>Rossiyadagi migrant aka-ukalarimiz uchun arzon, oson va tejamkor retseptlar portali</p>
+</header>
+
+<section class="calculator-container" id="kalkulyator">
+    <h3>
+        <span class="material-icons">calculate</span>
+        Aqlli Kalkulyator
+    </h3>
+    <p>Hamyoningizdagi pul miqdorini kiriting (Masalan, 170 kiritsangiz unga yaqin taomlarni ham chiqaradi):</p>
+    <div class="input-group">
+        <input type="number" id="userBudget" placeholder="Masalan: 170, 210, 95" min="0">
+        <button type="button" class="calc-btn" id="calcBtn">Taom topish</button>
+    </div>
+    <div class="calc-result-text" id="calcOutput"></div>
+</section>
+
+<hr class="section-divider">
+
+<section class="filter-container" id="retseptlar">
+
+    <div class="search-box">
+        <span class="material-icons search-icon" aria-hidden="true">search</span>
+        <input
+                type="text"
+                id="searchInput"
+                placeholder="Taom yoki masalliq qidirish..."
+                autocomplete="off"
+                aria-label="Retsept qidirish">
+        <button type="button" class="clear-btn" id="clearSearch" aria-label="Qidiruvni tozalash" hidden>
+            <span class="material-icons">close</span>
+        </button>
+    </div>
+
+    <h4>Toifa yoki sevimlilar bo'yicha:</h4>
+    <div class="filter-buttons" id="filterButtons">
+        <button type="button" class="btn active" data-budget="all" aria-pressed="true">Hammasi</button>
+        <button type="button" class="btn" data-budget="100" aria-pressed="false">100 Rubl</button>
+        <button type="button" class="btn" data-budget="150" aria-pressed="false">150 Rubl</button>
+        <button type="button" class="btn" data-budget="300" aria-pressed="false">300 Rubl</button>
+        <button type="button" class="btn fav-toggle" id="favToggle" aria-pressed="false">
+            <span class="material-icons">favorite_border</span>
+            <span>Sevimlilar</span>
+        </button>
+    </div>
+</section>
+
+<main class="recipes-grid" id="recipes">
+
+    <div class="recipe-card" data-budget="100" data-id="1">
+        <div class="insufficient-funds-alert"></div>
+        <div class="badge">100 Rubl</div>
+        <button type="button" class="fav-btn" data-fav-id="1" aria-label="Sevimlilarga qo'shish" aria-pressed="false">
+            <span class="material-icons">favorite_border</span>
+        </button>
+
+        <div class="video-box" data-recipe="Tuxum qovurish">
+            <div class="video-selector">
+                <p class="video-hint">
+                    <span class="material-icons">smart_display</span>
+                    Video qo'llanma
+                </p>
+                <div class="platform-buttons">
+                    <button type="button" class="platform-btn yt" data-platform="youtube" title="YouTube da qidirish">
+                        <span class="p-dot"></span>YouTube
+                        <span class="p-arrow material-icons">open_in_new</span>
+                    </button>
+                    <button type="button" class="platform-btn vk" data-platform="vk" title="VK Video da qidirish">
+                        <span class="p-dot"></span>VK Video
+                        <span class="p-arrow material-icons">open_in_new</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="recipe-content">
+            <h2>Oson Qovurilgan Tuxum</h2>
+            <div class="saving-tip">
+                <span class="material-icons">lightbulb</span>
+                <strong>Keshbek siri:</strong> "Pyaterochka" yoki "Magnit" do'konlarida keshbek kartasidan foydalaning, yig'ilgan ballarga keyingi safar tuxumni bepul olasiz!
+            </div>
+            <h3>Kerakli mahsulotlar:</h3>
+            <ul>
+                <li>Tuxum (C2 toifa, 10ta) — 85 rubl</li>
+                <li>Tuz va ozgina o'simlik yog'i</li>
+            </ul>
+            <h3>Tayyorlanishi:</h3>
+            <p>Tovaga ozgina yog' solib qizdirasiz. Tuxumlarni chaqib, ta'bga ko'ra tuz sepasiz. Olovni pastlatib, sarg'ishi pishguncha 3-4 daqiqa qovurasiz.</p>
+        </div>
+    </div>
+
+    <div class="recipe-card" data-budget="150" data-id="2">
+        <div class="insufficient-funds-alert"></div>
+        <div class="badge">150 Rubl</div>
+        <button type="button" class="fav-btn" data-fav-id="2" aria-label="Sevimlilarga qo'shish" aria-pressed="false">
+            <span class="material-icons">favorite_border</span>
+        </button>
+
+        <div class="video-box" data-recipe="Piyozli Tuxum Qovurdoq retsept">
+            <div class="video-selector">
+                <p class="video-hint">
+                    <span class="material-icons">smart_display</span>
+                    Video qo'llanma
+                </p>
+                <div class="platform-buttons">
+                    <button type="button" class="platform-btn yt" data-platform="youtube" title="YouTube da qidirish">
+                        <span class="p-dot"></span>YouTube
+                        <span class="p-arrow material-icons">open_in_new</span>
+                    </button>
+                    <button type="button" class="platform-btn vk" data-platform="vk" title="VK Video da qidirish">
+                        <span class="p-dot"></span>VK Video
+                        <span class="p-arrow material-icons">open_in_new</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="recipe-content">
+            <h2>Piyozli Tuxum-Qovurdoq</h2>
+            <div class="saving-tip">
+                <span class="material-icons">lightbulb</span>
+                <strong>Keshbek siri:</strong> Do'kon ilovasini yuklab oling, u yerda aynan piyoz va non uchun haftalik maxsus chegirmali kuponlar bo'ladi.
+            </div>
+            <h3>Kerakli mahsulotlar:</h3>
+            <ul>
+                <li>Tuxum (4 dona) — 40 rubl</li>
+                <li>Piyoz (2 dona kattaroq) — 15 rubl</li>
+                <li>Arzonroq non (Moya sena) — 35 rubl</li>
+                <li>Yog' — 20 rubl</li>
+            </ul>
+            <h3>Tayyorlanishi:</h3>
+            <p>Piyozni mayda to'g'rab, tillarang bo'lguncha qovurasiz. Keyin ustiga tuxumlarni chaqib, tuz sepib aralashtirasiz. Piyoz taomni barakali qiladi.</p>
+        </div>
+    </div>
+
+    <div class="recipe-card" data-budget="300" data-id="3">
+        <div class="insufficient-funds-alert"></div>
+        <div class="badge">300 Rubl</div>
+        <button type="button" class="fav-btn" data-fav-id="3" aria-label="Sevimlilarga qo'shish" aria-pressed="false">
+            <span class="material-icons">favorite_border</span>
+        </button>
+
+        <div class="video-box" data-recipe="Tovuqli Kartoshkali Qozonkabob retsept">
+            <div class="video-selector">
+                <p class="video-hint">
+                    <span class="material-icons">smart_display</span>
+                    Video qo'llanma
+                </p>
+                <div class="platform-buttons">
+                    <button type="button" class="platform-btn yt" data-platform="youtube" title="YouTube da qidirish">
+                        <span class="p-dot"></span>YouTube
+                        <span class="p-arrow material-icons">open_in_new</span>
+                    </button>
+                    <button type="button" class="platform-btn vk" data-platform="vk" title="VK Video da qidirish">
+                        <span class="p-dot"></span>VK Video
+                        <span class="p-arrow material-icons">open_in_new</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="recipe-content">
+            <h2>Tovuqli va Kartoshkali Qozonkabob (2 kishilik)</h2>
+            <div class="saving-tip">
+                <span class="material-icons">lightbulb</span>
+                <strong>Tejamkorlik siri:</strong> Go'shtlarni kechki soat 20:00 dan keyin supermarketlardan izlang. Ko'p do'konlar o'sha vaqtda go'shtlarga 20-30% gacha sarg'ish chegirmali yorliq yopishtirishadi.
+            </div>
+            <h3>Kerakli mahsulotlar:</h3>
+            <ul>
+                <li>Tovuq soni (Golen, 500g) — 160 rubl</li>
+                <li>Kartoshka (1 kg) — 45 rubl</li>
+                <li>Piyoz va ziravorlar — 40 rubl</li>
+                <li>Non — 35 rubl</li>
+            </ul>
+            <h3>Tayyorlanishi:</h3>
+            <p>Tovuqlarni tuzlab baland olovda qizartirib olasiz. Keyin shu yog'da kartoshkalarni ham qovurib, hammasini birga ozgina suv solib 25 daqiqa dimlaysiz.</p>
+        </div>
+    </div>
+</main>
+
+<div class="no-results" id="noResults" hidden>
+    <span class="material-icons">search_off</span>
+    <p>Hech narsa topilmadi</p>
+    <p class="no-results-sub">Boshqa so'z bilan qidirib ko'ring yoki filtrlarni o'zgartiring.</p>
+</div>
+
+<hr class="section-divider">
+
+<section class="tips-section" id="maslahatlar">
+    <h2>Tejash bo'yicha 4 maslahat</h2>
+    <p class="tips-sub">Har kuni ozgina tejasangiz — oy oxirida sezilarli farq bo'ladi.</p>
+
+    <div class="tips-grid">
+        <div class="tip-card c-credit">
+            <span class="material-icons tip-icon" aria-hidden="true">credit_card</span>
+            <h3>Keshbek ilovalari</h3>
+            <p>"Pyaterochka", "Magnit" va "Perekrestok" ilovalarida xaridning 5–10% ini keshbek sifatida qaytarib oling.</p>
+        </div>
+        <div class="tip-card c-evening">
+            <span class="material-icons tip-icon" aria-hidden="true">schedule</span>
+            <h3>Kechki chegirmalar</h3>
+            <p>Soat 20:00 dan keyin ko'p do'konlarda tayyor taomlar va non 30%, 50% gacha arzonlashadi.</p>
+        </div>
+        <div class="tip-card c-market">
+            <span class="material-icons tip-icon" aria-hidden="true">shopping_basket</span>
+            <h3>Bozordan oling</h3>
+            <p>Kartoshka, sabzi va piyozni bozordan kilosiga olsangiz, 2x – 3x barobar arzon tushadi.</p>
+        </div>
+        <div class="tip-card c-cook">
+            <span class="material-icons tip-icon" aria-hidden="true">soup_kitchen</span>
+            <h3>Bir marta — ikki kun</h3>
+            <p>Katta qozonda pishiring: ertangi kunga ham yetadi, gaz va vaqtni tejaydi.</p>
+        </div>
+    </div>
+</section>
+
+<script>
+    /* ============================================================
+       ASOSIY FUNKSIONALLIK
+       ============================================================ */
+    (function () {
+        'use strict';
+
+        const cards           = Array.from(document.querySelectorAll('.recipe-card'));
+        const filterButtons   = Array.from(document.querySelectorAll('#filterButtons .btn[data-budget]'));
+        const favToggleBtn    = document.getElementById('favToggle');
+        const searchInput     = document.getElementById('searchInput');
+        const clearSearchBtn  = document.getElementById('clearSearch');
+        const noResults       = document.getElementById('noResults');
+        const userBudgetInput = document.getElementById('userBudget');
+        const calcOutput      = document.getElementById('calcOutput');
+        const calcBtn         = document.getElementById('calcBtn');
+        const recipesRoot     = document.getElementById('recipes');
+
+        let activeBudget = 'all';
+        let searchQuery  = '';
+        let favOnly      = false;
+
+        const FAV_KEY = 'musofir_favorites_v1';
+        let favorites = new Set();
+        try {
+            const raw = localStorage.getItem(FAV_KEY);
+            if (raw) {
+                const arr = JSON.parse(raw);
+                if (Array.isArray(arr)) favorites = new Set(arr.map(String));
+            }
+        } catch (e) {}
+
+        function saveFavorites() {
+            try { localStorage.setItem(FAV_KEY, JSON.stringify(Array.from(favorites))); } catch (e) {}
+        }
+
+        cards.forEach(function (card) {
+            const title = ((card.querySelector('h2') || {}).textContent || '').toLowerCase();
+            const ingredients = Array.from(card.querySelectorAll('.recipe-content ul li'))
+                .map(function (li) { return li.textContent.toLowerCase(); })
+                .join(' ');
+            card.dataset.search = (title + ' ' + ingredients).trim();
+        });
+
+        function syncFavoriteButtons() {
+            document.querySelectorAll('.fav-btn').forEach(function (btn) {
+                const id = btn.getAttribute('data-fav-id');
+                const isFav = favorites.has(id);
+                btn.classList.toggle('is-fav', isFav);
+                btn.setAttribute('aria-pressed', isFav ? 'true' : 'false');
+                btn.setAttribute('aria-label', isFav ? 'Sevimlilardan olib tashlash' : "Sevimlilarga qo'shish");
+                const icon = btn.querySelector('.material-icons');
+                if (icon) icon.textContent = isFav ? 'favorite' : 'favorite_border';
+            });
+        }
+
+        function showCard(card) { card.classList.remove('is-hidden'); card.style.display = 'flex'; }
+        function hideCard(card) { card.classList.add('is-hidden'); card.style.display = 'none'; }
+
+        function resetCalcOutput() {
+            if (!calcOutput) return;
+            calcOutput.style.display = 'none';
+            calcOutput.textContent = '';
+        }
+
+        function applyVisibility() {
+            resetCalcOutput();
+            let visibleCount = 0;
+            cards.forEach(function (card) {
+                card.classList.remove('alternative-choice');
+                const cardBudget = card.getAttribute('data-budget');
+                const cardId     = card.getAttribute('data-id');
+                const matchesBudget = (activeBudget === 'all') || (cardBudget === activeBudget);
+                const matchesSearch = (searchQuery === '') || (card.dataset.search || '').includes(searchQuery);
+                const matchesFav    = !favOnly || favorites.has(cardId);
+                if (matchesBudget && matchesSearch && matchesFav) {
+                    showCard(card);
+                    visibleCount++;
+                } else {
+                    hideCard(card);
+                }
+            });
+            if (noResults) noResults.hidden = visibleCount > 0;
+        }
+
+        function updateFavToggleUI() {
+            if (!favToggleBtn) return;
+            favToggleBtn.classList.toggle('active', favOnly);
+            favToggleBtn.setAttribute('aria-pressed', favOnly ? 'true' : 'false');
+            const icon = favToggleBtn.querySelector('.material-icons');
+            if (icon) icon.textContent = favOnly ? 'favorite' : 'favorite_border';
+        }
+
+        function clearAllFiltersForCalc() {
+            activeBudget = 'all';
+            searchQuery  = '';
+            favOnly      = false;
+            if (searchInput) searchInput.value = '';
+            if (clearSearchBtn) clearSearchBtn.hidden = true;
+            filterButtons.forEach(function (b) {
+                const isAll = b.getAttribute('data-budget') === 'all';
+                b.classList.toggle('active', isAll);
+                b.setAttribute('aria-pressed', isAll ? 'true' : 'false');
+            });
+            updateFavToggleUI();
+        }
+
+        filterButtons.forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                filterButtons.forEach(function (b) {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-pressed', 'false');
+                });
+                btn.classList.add('active');
+                btn.setAttribute('aria-pressed', 'true');
+                activeBudget = btn.getAttribute('data-budget') || 'all';
+                applyVisibility();
+            });
+        });
+
+        if (favToggleBtn) {
+            favToggleBtn.addEventListener('click', function () {
+                favOnly = !favOnly;
+                updateFavToggleUI();
+                applyVisibility();
+            });
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function () {
+                searchQuery = searchInput.value.trim().toLowerCase();
+                if (clearSearchBtn) clearSearchBtn.hidden = searchQuery === '';
+                applyVisibility();
+            });
+        }
+
+        if (clearSearchBtn) {
+            clearSearchBtn.addEventListener('click', function () {
+                if (!searchInput) return;
+                searchInput.value = '';
+                searchQuery = '';
+                clearSearchBtn.hidden = true;
+                applyVisibility();
+                searchInput.focus();
+            });
+        }
+
+        function calculateMyFood() {
+            if (!userBudgetInput || !calcOutput) return;
+            const rawValue = String(userBudgetInput.value).trim();
+            const userMoney = parseInt(rawValue, 10);
+            if (!rawValue || isNaN(userMoney) || userMoney <= 0) {
+                calcOutput.style.display = 'block';
+                calcOutput.style.color = '#e74c3c';
+                calcOutput.textContent = "Iltimos, to'g'ri pul miqdorini kiriting!";
+                return;
+            }
+            clearAllFiltersForCalc();
+            if (noResults) noResults.hidden = true;
+            let exactMatches = 0;
+            let closestCard  = null;
+            let closestDiff  = Infinity;
+            cards.forEach(function (card) {
+                card.classList.remove('alternative-choice');
+                const cardCost = parseInt(card.getAttribute('data-budget'), 10);
+                if (userMoney >= cardCost) {
+                    showCard(card);
+                    exactMatches++;
+                } else {
+                    hideCard(card);
+                    const diff = cardCost - userMoney;
+                    if (diff < closestDiff) {
+                        closestDiff = diff;
+                        closestCard = card;
+                    }
+                }
+            });
+            calcOutput.style.display = 'block';
+            if (exactMatches > 0) {
+                calcOutput.style.color = '#27ae60';
+                calcOutput.textContent =
+                    "Sizning " + userMoney + " rublingizga to'g'ri keladigan " +
+                    exactMatches + " ta taom topildi!";
+                if (closestCard) {
+                    showCard(closestCard);
+                    closestCard.classList.add('alternative-choice');
+                    const az = closestCard.querySelector('.insufficient-funds-alert');
+                    if (az) az.innerHTML =
+                        '<span class="material-icons alert-icon">warning</span> Ushbu taomga yana ' +
+                        closestDiff + " rubl yetmadi. Xonadoshingiz bilan birlashsangiz bo'ladi!";
+                }
+            } else {
+                calcOutput.style.color = '#e67e22';
+                calcOutput.textContent =
+                    "Afsuski, " + userMoney + " rublga yetadigan taom yo'q. " +
+                    "Sizga eng yaqin variantni ko'rsatmoqdamiz:";
+                if (closestCard) {
+                    showCard(closestCard);
+                    closestCard.classList.add('alternative-choice');
+                    const az2 = closestCard.querySelector('.insufficient-funds-alert');
+                    if (az2) az2.innerHTML =
+                        '<span class="material-icons alert-icon">warning</span> Ushbu taomni tayyorlash uchun sizga yana ' +
+                        closestDiff + " rubl kerak.";
+                }
+            }
+        }
+
+        if (calcBtn) calcBtn.addEventListener('click', calculateMyFood);
+        if (userBudgetInput) userBudgetInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') { e.preventDefault(); calculateMyFood(); }
+        });
+
+        /* ============ VIDEO PLATFORMALAR (faqat YouTube va VK search) ============ */
+        const videoPlatforms = {
+            youtube: {
+                search: function (q) { return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q); }
+            },
+            vk: {
+                search: function (q) { return 'https://vk.com/video?q=' + encodeURIComponent(q); }
+            }
+        };
+
+        if (recipesRoot) {
+            recipesRoot.addEventListener('click', function (e) {
+                var favBtn = e.target.closest('.fav-btn');
+                if (favBtn) {
+                    e.preventDefault();
+                    var favId = favBtn.getAttribute('data-fav-id');
+                    if (!favId) return;
+                    if (favorites.has(favId)) favorites.delete(favId);
+                    else favorites.add(favId);
+                    saveFavorites();
+                    syncFavoriteButtons();
+                    if (favOnly) applyVisibility();
+                    return;
+                }
+                var platformBtn = e.target.closest('.platform-btn');
+                if (platformBtn) {
+                    var pBox = platformBtn.closest('.video-box');
+                    var platform = platformBtn.getAttribute('data-platform');
+                    var recipeName = pBox ? pBox.getAttribute('data-recipe') : '';
+                    if (videoPlatforms[platform] && recipeName) {
+                        window.open(videoPlatforms[platform].search(recipeName), '_blank', 'noopener');
+                    }
+                    return;
+                }
+            });
+        }
+
+        syncFavoriteButtons();
+        updateFavToggleUI();
+        applyVisibility();
+
+    })();
+
+    /* ============================================================
+       PWA — SERVICE WORKER + INSTALL PROMPT + OFFLINE
+       ============================================================ */
+    (function () {
+        'use strict';
+
+        const installBtn   = document.getElementById('installBtn');
+        const offlineToast = document.getElementById('offlineToast');
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('./service-worker.js', { scope: './' })
+                    .then(function (reg) { console.log('[PWA] Service Worker ro\'yxatga olindi:', reg.scope); })
+                    .catch(function (err) { console.warn('[PWA] SW xato:', err); });
+            });
+        }
+
+        let deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', function (e) {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (installBtn) installBtn.classList.add('is-visible');
+        });
+
+        if (installBtn) {
+            installBtn.addEventListener('click', async function () {
+                if (!deferredPrompt && isIOS() && !isStandalone()) {
+                    alert(
+                        "iPhone / iPad da o'rnatish uchun:\n\n" +
+                        "1. Safari pastidagi «Ulashish» tugmasini bosing\n" +
+                        "2. «Bosh ekranga qo'shish» tanlang\n" +
+                        "3. «Qo'shish» ni bosing"
+                    );
+                    return;
+                }
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log('[PWA] Install natijasi:', outcome);
+                deferredPrompt = null;
+                installBtn.classList.remove('is-visible');
+            });
+        }
+
+        if (isIOS() && !isStandalone() && installBtn) {
+            installBtn.classList.add('is-visible');
+        }
+
+        window.addEventListener('appinstalled', function () {
+            console.log('[PWA] Ilova o\'rnatildi');
+            if (installBtn) installBtn.classList.remove('is-visible');
+        });
+
+        function updateOnlineStatus() {
+            if (!offlineToast) return;
+            if (navigator.onLine) offlineToast.classList.remove('is-visible');
+            else offlineToast.classList.add('is-visible');
+        }
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+
+        if (isStandalone() && installBtn) {
+            installBtn.classList.remove('is-visible');
+        }
+
+        function isIOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        }
+        function isStandalone() {
+            return window.matchMedia('(display-mode: standalone)').matches ||
+                window.navigator.standalone === true;
+        }
+    })();
+</script>
+</body>
+</html>
