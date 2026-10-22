@@ -486,7 +486,7 @@
             color: #d35400;
         }
 
-        /* VIDEO */
+        /* VIDEO (faqat platforma tanlovi, pleer yo'q) */
         .video-box {
             position: relative;
             aspect-ratio: 16 / 9;
@@ -524,7 +524,6 @@
             justify-content: center;
             gap: 6px;
             width: 100%;
-            margin-bottom: 10px;
         }
 
         .platform-btn {
@@ -556,75 +555,6 @@
         .platform-btn.yt .p-dot { background: #ff3b3b; }
         .platform-btn.vk .p-dot { background: #0077ff; }
         .platform-btn .p-arrow { font-size: 0.75rem; opacity: 0.55; }
-
-        .link-input-row {
-            display: flex;
-            gap: 5px;
-            width: 100%;
-            max-width: 290px;
-        }
-
-        .video-link-input {
-            flex: 1;
-            min-width: 0;
-            padding: 7px 12px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
-            font-size: 0.75rem;
-            outline: none;
-            font-family: inherit;
-            transition: border-color 0.15s, background 0.15s;
-        }
-        .video-link-input::placeholder { color: rgba(255, 255, 255, 0.5); font-size: 0.72rem; }
-        .video-link-input:focus {
-            border-color: rgba(255, 255, 255, 0.55);
-            background: rgba(255, 255, 255, 0.14);
-        }
-
-        .video-link-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: none;
-            background: #ffd166;
-            color: #1a1a2e;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            padding: 0;
-            transition: background 0.15s;
-        }
-        .video-link-btn:hover { background: #ffc933; }
-        .video-link-btn .material-icons { font-size: 1.05rem; }
-
-        .video-box.is-playing { background: #000; }
-        .video-player-wrap { position: absolute; inset: 0; }
-        .video-player-wrap iframe {
-            width: 100%; height: 100%;
-            border: none; display: block;
-        }
-        .video-back-btn {
-            position: absolute;
-            top: 8px; right: 8px;
-            width: 30px; height: 30px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(0, 0, 0, 0.65);
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            z-index: 5;
-            transition: background 0.15s;
-        }
-        .video-back-btn:hover { background: rgba(0, 0, 0, 0.88); }
-        .video-back-btn .material-icons { font-size: 1.05rem; }
 
         /* CONTENT */
         .recipe-content { padding: 25px; }
@@ -868,12 +798,6 @@
                         <span class="p-arrow material-icons">open_in_new</span>
                     </button>
                 </div>
-                <div class="link-input-row">
-                    <input type="url" class="video-link-input" placeholder="Video havolasi...">
-                    <button type="button" class="video-link-btn" aria-label="Havoladan yuklash" title="Havoladan yuklash">
-                        <span class="material-icons">play_arrow</span>
-                    </button>
-                </div>
             </div>
         </div>
 
@@ -914,12 +838,6 @@
                     <button type="button" class="platform-btn vk" data-platform="vk" title="VK Video da qidirish">
                         <span class="p-dot"></span>VK Video
                         <span class="p-arrow material-icons">open_in_new</span>
-                    </button>
-                </div>
-                <div class="link-input-row">
-                    <input type="url" class="video-link-input" placeholder="Video havolasi...">
-                    <button type="button" class="video-link-btn" aria-label="Havoladan yuklash" title="Havoladan yuklash">
-                        <span class="material-icons">play_arrow</span>
                     </button>
                 </div>
             </div>
@@ -964,12 +882,6 @@
                     <button type="button" class="platform-btn vk" data-platform="vk" title="VK Video da qidirish">
                         <span class="p-dot"></span>VK Video
                         <span class="p-arrow material-icons">open_in_new</span>
-                    </button>
-                </div>
-                <div class="link-input-row">
-                    <input type="url" class="video-link-input" placeholder="Video havolasi...">
-                    <button type="button" class="video-link-btn" aria-label="Havoladan yuklash" title="Havoladan yuklash">
-                        <span class="material-icons">play_arrow</span>
                     </button>
                 </div>
             </div>
@@ -1243,66 +1155,15 @@
             if (e.key === 'Enter') { e.preventDefault(); calculateMyFood(); }
         });
 
-        /* ============ VIDEO PLATFORMALAR (faqat YouTube va VK) ============ */
+        /* ============ VIDEO PLATFORMALAR (faqat YouTube va VK search) ============ */
         const videoPlatforms = {
             youtube: {
-                search: function (q) { return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q); },
-                embed: function (url) {
-                    var id = extractYouTubeId(url);
-                    return id ? 'https://www.youtube.com/embed/' + id + '?rel=0' : null;
-                }
+                search: function (q) { return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q); }
             },
             vk: {
-                search: function (q) { return 'https://vk.com/video?q=' + encodeURIComponent(q); },
-                embed: function (url) {
-                    var m = url.match(/(?:vk\.com|vkvideo\.ru)\/video(-?\d+)_(\d+)/);
-                    return m ? 'https://vk.com/video_ext.php?oid=' + m[1] + '&id=' + m[2] + '&hd=2' : null;
-                }
+                search: function (q) { return 'https://vk.com/video?q=' + encodeURIComponent(q); }
             }
         };
-
-        function extractYouTubeId(url) {
-            var patterns = [
-                /(?:youtube\.com\/watch\?(?:.*&)?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/
-            ];
-            for (var i = 0; i < patterns.length; i++) {
-                var m = url.match(patterns[i]);
-                if (m) return m[1];
-            }
-            return null;
-        }
-
-        function resolveEmbedUrl(url) {
-            var platforms = ['youtube', 'vk'];
-            for (var i = 0; i < platforms.length; i++) {
-                var result = videoPlatforms[platforms[i]].embed(url);
-                if (result) return result;
-            }
-            return null;
-        }
-
-        function loadEmbed(box, embedUrl) {
-            if (!box._originalHTML) box._originalHTML = box.innerHTML;
-            box.classList.add('is-playing');
-            box.innerHTML =
-                '<div class="video-player-wrap">' +
-                '<iframe src="' + embedUrl + '" ' +
-                'allow="autoplay; encrypted-media; fullscreen; picture-in-picture" ' +
-                'allowfullscreen loading="lazy" ' +
-                'referrerpolicy="strict-origin-when-cross-origin"></iframe>' +
-                '<button type="button" class="video-back-btn" aria-label="Boshqa video tanlash" title="Orqaga">' +
-                '<span class="material-icons">close</span>' +
-                '</button>' +
-                '</div>';
-        }
-
-        function restoreSelector(box) {
-            if (box._originalHTML) {
-                box.innerHTML = box._originalHTML;
-                box._originalHTML = null;
-                box.classList.remove('is-playing');
-            }
-        }
 
         if (recipesRoot) {
             recipesRoot.addEventListener('click', function (e) {
@@ -1327,42 +1188,6 @@
                         window.open(videoPlatforms[platform].search(recipeName), '_blank', 'noopener');
                     }
                     return;
-                }
-                var linkBtn = e.target.closest('.video-link-btn');
-                if (linkBtn) {
-                    var lBox = linkBtn.closest('.video-box');
-                    var input = lBox.querySelector('.video-link-input');
-                    var url = input ? input.value.trim() : '';
-                    if (!url) { if (input) input.focus(); return; }
-                    var embedUrl = resolveEmbedUrl(url);
-                    if (embedUrl) {
-                        loadEmbed(lBox, embedUrl);
-                    } else {
-                        input.style.borderColor = '#e74c3c';
-                        var oldPlaceholder = input.getAttribute('placeholder');
-                        input.setAttribute('placeholder', "Qo'llab-quvvatlanmaydi");
-                        setTimeout(function () {
-                            input.style.borderColor = '';
-                            input.setAttribute('placeholder', oldPlaceholder || 'Video havolasi...');
-                        }, 2200);
-                    }
-                    return;
-                }
-                var backBtn = e.target.closest('.video-back-btn');
-                if (backBtn) {
-                    var bBox = backBtn.closest('.video-box');
-                    restoreSelector(bBox);
-                    return;
-                }
-            });
-
-            recipesRoot.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter' && e.target.classList.contains('video-link-input')) {
-                    e.preventDefault();
-                    var box = e.target.closest('.video-box');
-                    if (!box) return;
-                    var btn = box.querySelector('.video-link-btn');
-                    if (btn) btn.click();
                 }
             });
         }
