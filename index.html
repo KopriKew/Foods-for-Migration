@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Musofir Taomlari - Migrantlar uchun oson retseptlar</title>
 
+    <!-- ============ PWA META ============ -->
+    <meta name="theme-color" content="#1e3c72">
+    <meta name="description" content="Migrantlar uchun arzon, oson va tejamkor retseptlar">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" href="./icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="./icon.svg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Musofir Taomlari">
+    <meta name="mobile-web-app-capable" content="yes">
+
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -54,7 +65,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 16px;
+            gap: 12px;
         }
 
         .topnav-brand {
@@ -77,6 +88,7 @@
         .topnav-links {
             display: flex;
             gap: 22px;
+            align-items: center;
         }
 
         .topnav-links a {
@@ -90,11 +102,64 @@
 
         .topnav-links a:hover { color: #ffffff; }
 
-        @media (max-width: 520px) {
-            .topnav-brand { font-size: 0.92rem; }
-            .topnav-links { gap: 14px; }
-            .topnav-links a { font-size: 0.82rem; }
+        .install-btn {
+            display: none;
+            align-items: center;
+            gap: 5px;
+            background: #ffd166;
+            color: #1e3c72;
+            border: none;
+            padding: 7px 14px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.15s, transform 0.15s;
+            white-space: nowrap;
         }
+        .install-btn:hover { background: #ffc933; transform: translateY(-1px); }
+        .install-btn.is-visible { display: inline-flex; }
+        .install-btn .material-icons { font-size: 1.05rem; }
+
+        @media (max-width: 620px) {
+            .topnav-brand { font-size: 0.92rem; }
+            .topnav-links { gap: 12px; }
+            .topnav-links a { font-size: 0.8rem; }
+            .install-btn span:not(.material-icons) { display: none; }
+            .install-btn { padding: 7px; width: 32px; height: 32px; justify-content: center; }
+        }
+
+        @media (max-width: 400px) {
+            .topnav-links a:not(:last-child) { display: none; }
+        }
+
+        /* OFFLINE TOAST */
+        .offline-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            max-width: 420px;
+            margin: 0 auto;
+            background: #d35400;
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 8px 28px rgba(211, 84, 0, 0.45);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transform: translateY(150%);
+            transition: transform 0.3s ease;
+        }
+        .offline-toast.is-visible { transform: translateY(0); }
+        .offline-toast .material-icons { font-size: 1.1rem; }
 
         /* Header */
         header {
@@ -125,7 +190,6 @@
             opacity: 0.9;
         }
 
-        /* HR ajratgich */
         .section-divider {
             border: none;
             height: 1px;
@@ -134,9 +198,7 @@
             background: linear-gradient(90deg, transparent 0%, #c9d3e0 20%, #c9d3e0 80%, transparent 100%);
         }
 
-        /* ==========================================
-           KALKULYATOR
-           ========================================== */
+        /* KALKULYATOR */
         .calculator-container {
             background-color: white;
             max-width: 600px;
@@ -204,9 +266,7 @@
             font-size: 0.95rem;
         }
 
-        .calc-btn:hover {
-            background-color: #1e3c72;
-        }
+        .calc-btn:hover { background-color: #1e3c72; }
 
         .calc-result-text {
             margin-top: 15px;
@@ -216,9 +276,7 @@
             line-height: 1.4;
         }
 
-        /* ==========================================
-           FILTR + SEARCH BO'LIMI
-           ========================================== */
+        /* FILTR + SEARCH */
         .filter-container {
             text-align: center;
             margin: 20px auto 30px auto;
@@ -259,9 +317,7 @@
             box-shadow: 0 0 0 4px rgba(42, 82, 152, 0.1);
         }
 
-        #searchInput::placeholder {
-            color: #9aa3b2;
-        }
+        #searchInput::placeholder { color: #9aa3b2; }
 
         .clear-btn {
             position: absolute;
@@ -281,12 +337,7 @@
             padding: 0;
             transition: background 0.15s, color 0.15s;
         }
-
-        .clear-btn:hover {
-            background: #e4e8ee;
-            color: #333;
-        }
-
+        .clear-btn:hover { background: #e4e8ee; color: #333; }
         .clear-btn .material-icons { font-size: 1.05rem; }
 
         .filter-container h4 {
@@ -329,18 +380,8 @@
             border-color: #e74c3c;
             color: #e74c3c;
         }
-
-        .btn.fav-toggle .material-icons {
-            font-size: 1.15rem;
-        }
-
-        .btn.fav-toggle:hover {
-            background-color: #e74c3c;
-            border-color: #e74c3c;
-            color: white;
-            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
-        }
-
+        .btn.fav-toggle .material-icons { font-size: 1.15rem; }
+        .btn.fav-toggle:hover,
         .btn.fav-toggle.active {
             background-color: #e74c3c;
             border-color: #e74c3c;
@@ -348,9 +389,7 @@
             box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
         }
 
-        /* ==========================================
-           TAOMLAR KARTALARI
-           ========================================== */
+        /* KARTALAR */
         .recipes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -376,11 +415,8 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
 
-        .recipe-card.is-hidden {
-            display: none !important;
-        }
+        .recipe-card.is-hidden { display: none !important; }
 
-        /* Sevimli tugmasi */
         .fav-btn {
             position: absolute;
             top: 14px;
@@ -400,25 +436,10 @@
             transition: transform 0.15s, color 0.15s, background 0.15s;
             padding: 0;
         }
-
-        .fav-btn:hover {
-            transform: scale(1.08);
-            color: #e74c3c;
-            background: #fff;
-        }
-
-        .fav-btn .material-icons {
-            font-size: 1.3rem;
-        }
-
-        .fav-btn.is-fav {
-            color: #e74c3c;
-            background: #fff;
-        }
-
-        .fav-btn.is-fav .material-icons {
-            animation: heart-pop 0.3s ease;
-        }
+        .fav-btn:hover { transform: scale(1.08); color: #e74c3c; background: #fff; }
+        .fav-btn .material-icons { font-size: 1.3rem; }
+        .fav-btn.is-fav { color: #e74c3c; background: #fff; }
+        .fav-btn.is-fav .material-icons { animation: heart-pop 0.3s ease; }
 
         @keyframes heart-pop {
             0% { transform: scale(1); }
@@ -444,10 +465,7 @@
             opacity: 0.9;
             border: 2px dashed #e67e22;
         }
-
-        .recipe-card.alternative-choice .badge {
-            background-color: #e67e22;
-        }
+        .recipe-card.alternative-choice .badge { background-color: #e67e22; }
 
         .insufficient-funds-alert {
             background-color: #ffeaa7;
@@ -459,10 +477,7 @@
             border-bottom: 1px solid #fab1a0;
             display: none;
         }
-
-        .recipe-card.alternative-choice .insufficient-funds-alert {
-            display: block;
-        }
+        .recipe-card.alternative-choice .insufficient-funds-alert { display: block; }
 
         .alert-icon {
             font-size: 1rem;
@@ -471,9 +486,7 @@
             color: #d35400;
         }
 
-        /* ==========================================
-           VIDEO PLAYER TANLOVI
-           ========================================== */
+        /* VIDEO */
         .video-box {
             position: relative;
             aspect-ratio: 16 / 9;
@@ -503,11 +516,7 @@
             gap: 5px;
             font-weight: 500;
         }
-
-        .video-hint .material-icons {
-            font-size: 1rem;
-            color: #ffd166;
-        }
+        .video-hint .material-icons { font-size: 1rem; color: #ffd166; }
 
         .platform-buttons {
             display: flex;
@@ -533,12 +542,10 @@
             font-family: inherit;
             transition: background 0.15s, transform 0.15s;
         }
-
         .platform-btn:hover {
             background: rgba(255, 255, 255, 0.22);
             transform: translateY(-1px);
         }
-
         .platform-btn .p-dot {
             width: 8px;
             height: 8px;
@@ -546,15 +553,9 @@
             display: inline-block;
             flex-shrink: 0;
         }
-
         .platform-btn.yt .p-dot { background: #ff3b3b; }
         .platform-btn.vk .p-dot { background: #0077ff; }
-        .platform-btn.rt .p-dot { background: #f7b32b; }
-
-        .platform-btn .p-arrow {
-            font-size: 0.75rem;
-            opacity: 0.55;
-        }
+        .platform-btn .p-arrow { font-size: 0.75rem; opacity: 0.55; }
 
         .link-input-row {
             display: flex;
@@ -576,12 +577,7 @@
             font-family: inherit;
             transition: border-color 0.15s, background 0.15s;
         }
-
-        .video-link-input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.72rem;
-        }
-
+        .video-link-input::placeholder { color: rgba(255, 255, 255, 0.5); font-size: 0.72rem; }
         .video-link-input:focus {
             border-color: rgba(255, 255, 255, 0.55);
             background: rgba(255, 255, 255, 0.14);
@@ -602,30 +598,19 @@
             padding: 0;
             transition: background 0.15s;
         }
-
         .video-link-btn:hover { background: #ffc933; }
         .video-link-btn .material-icons { font-size: 1.05rem; }
 
         .video-box.is-playing { background: #000; }
-
-        .video-player-wrap {
-            position: absolute;
-            inset: 0;
-        }
-
+        .video-player-wrap { position: absolute; inset: 0; }
         .video-player-wrap iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
+            width: 100%; height: 100%;
+            border: none; display: block;
         }
-
         .video-back-btn {
             position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 30px;
-            height: 30px;
+            top: 8px; right: 8px;
+            width: 30px; height: 30px;
             border-radius: 50%;
             border: none;
             background: rgba(0, 0, 0, 0.65);
@@ -638,13 +623,10 @@
             z-index: 5;
             transition: background 0.15s;
         }
-
         .video-back-btn:hover { background: rgba(0, 0, 0, 0.88); }
         .video-back-btn .material-icons { font-size: 1.05rem; }
 
-        /* ==========================================
-           KONTENT
-           ========================================== */
+        /* CONTENT */
         .recipe-content { padding: 25px; }
 
         .recipe-content h2 {
@@ -664,7 +646,6 @@
             color: #2c3e50;
             line-height: 1.5;
         }
-
         .saving-tip .material-icons {
             font-size: 1.05rem;
             color: #f39c12;
@@ -680,24 +661,18 @@
             padding-bottom: 4px;
         }
 
-        .recipe-content ul {
-            margin-left: 20px;
-            margin-bottom: 20px;
-        }
-
+        .recipe-content ul { margin-left: 20px; margin-bottom: 20px; }
         .recipe-content ul li {
             margin-bottom: 6px;
             font-size: 0.95rem;
             color: #444;
         }
-
         .recipe-content p {
             line-height: 1.6;
             font-size: 0.95rem;
             color: #555;
         }
 
-        /* Hech narsa topilmadi */
         .no-results {
             text-align: center;
             padding: 60px 20px;
@@ -705,34 +680,25 @@
             margin: 0 auto;
             color: #8a93a1;
         }
-
         .no-results .material-icons {
             font-size: 3.5rem;
             color: #c5cbd4;
             display: block;
             margin-bottom: 12px;
         }
-
-        .no-results p {
-            font-size: 0.98rem;
-            font-weight: 500;
-        }
-
+        .no-results p { font-size: 0.98rem; font-weight: 500; }
         .no-results .no-results-sub {
             font-size: 0.85rem;
             color: #aab1bd;
             margin-top: 6px;
         }
 
-        /* ==========================================
-           MASLAHATLAR
-           ========================================== */
+        /* TIPS */
         .tips-section {
             max-width: 1200px;
             margin: 0 auto;
             padding: 10px 20px 30px;
         }
-
         .tips-section h2 {
             font-size: 1.7rem;
             color: #1e3c72;
@@ -740,7 +706,6 @@
             margin-bottom: 8px;
             text-align: center;
         }
-
         .tips-section .tips-sub {
             text-align: center;
             color: #6b7385;
@@ -762,26 +727,22 @@
             border-top: 4px solid #2a5298;
             transition: transform 0.2s, box-shadow 0.2s;
         }
-
         .tip-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
         }
-
         .tip-card .tip-icon {
             font-size: 2rem;
             line-height: 1;
             display: block;
             margin-bottom: 14px;
         }
-
         .tip-card h3 {
             font-size: 1.02rem;
             color: #2c3e50;
             margin-bottom: 8px;
             letter-spacing: -0.01em;
         }
-
         .tip-card p {
             font-size: 0.88rem;
             color: #5b6577;
@@ -792,7 +753,6 @@
         .tip-card.c-evening { border-top-color: #e67e22; }
         .tip-card.c-market  { border-top-color: #27ae60; }
         .tip-card.c-cook    { border-top-color: #8e44ad; }
-
         .tip-card.c-credit  .tip-icon { color: #2a5298; }
         .tip-card.c-evening .tip-icon { color: #e67e22; }
         .tip-card.c-market  .tip-icon { color: #27ae60; }
@@ -809,6 +769,11 @@
 </head>
 <body>
 
+<div class="offline-toast" id="offlineToast" role="status" aria-live="polite">
+    <span class="material-icons">cloud_off</span>
+    Oflayn rejim — barcha retseptlar ishlaydi
+</div>
+
 <nav class="topnav">
     <div class="topnav-inner">
         <a class="topnav-brand" href="#">
@@ -819,6 +784,10 @@
             <a href="#kalkulyator">Kalkulyator</a>
             <a href="#retseptlar">Retseptlar</a>
             <a href="#maslahatlar">Maslahatlar</a>
+            <button type="button" class="install-btn" id="installBtn" aria-label="Ilovani o'rnatish">
+                <span class="material-icons">download</span>
+                <span>O'rnatish</span>
+            </button>
         </div>
     </div>
 </nav>
@@ -848,7 +817,6 @@
 
 <section class="filter-container" id="retseptlar">
 
-    <!-- Qidiruv paneli -->
     <div class="search-box">
         <span class="material-icons search-icon" aria-hidden="true">search</span>
         <input
@@ -899,10 +867,6 @@
                         <span class="p-dot"></span>VK Video
                         <span class="p-arrow material-icons">open_in_new</span>
                     </button>
-                    <button type="button" class="platform-btn rt" data-platform="rutube" title="RuTube da qidirish">
-                        <span class="p-dot"></span>RuTube
-                        <span class="p-arrow material-icons">open_in_new</span>
-                    </button>
                 </div>
                 <div class="link-input-row">
                     <input type="url" class="video-link-input" placeholder="Video havolasi...">
@@ -949,10 +913,6 @@
                     </button>
                     <button type="button" class="platform-btn vk" data-platform="vk" title="VK Video da qidirish">
                         <span class="p-dot"></span>VK Video
-                        <span class="p-arrow material-icons">open_in_new</span>
-                    </button>
-                    <button type="button" class="platform-btn rt" data-platform="rutube" title="RuTube da qidirish">
-                        <span class="p-dot"></span>RuTube
                         <span class="p-arrow material-icons">open_in_new</span>
                     </button>
                 </div>
@@ -1005,10 +965,6 @@
                         <span class="p-dot"></span>VK Video
                         <span class="p-arrow material-icons">open_in_new</span>
                     </button>
-                    <button type="button" class="platform-btn rt" data-platform="rutube" title="RuTube da qidirish">
-                        <span class="p-dot"></span>RuTube
-                        <span class="p-arrow material-icons">open_in_new</span>
-                    </button>
                 </div>
                 <div class="link-input-row">
                     <input type="url" class="video-link-input" placeholder="Video havolasi...">
@@ -1056,19 +1012,16 @@
             <h3>Keshbek ilovalari</h3>
             <p>"Pyaterochka", "Magnit" va "Perekrestok" ilovalarida xaridning 5–10% ini keshbek sifatida qaytarib oling.</p>
         </div>
-
         <div class="tip-card c-evening">
             <span class="material-icons tip-icon" aria-hidden="true">schedule</span>
             <h3>Kechki chegirmalar</h3>
             <p>Soat 20:00 dan keyin ko'p do'konlarda tayyor taomlar va non 30%, 50% gacha arzonlashadi.</p>
         </div>
-
         <div class="tip-card c-market">
             <span class="material-icons tip-icon" aria-hidden="true">shopping_basket</span>
             <h3>Bozordan oling</h3>
             <p>Kartoshka, sabzi va piyozni bozordan kilosiga olsangiz, 2x – 3x barobar arzon tushadi.</p>
         </div>
-
         <div class="tip-card c-cook">
             <span class="material-icons tip-icon" aria-hidden="true">soup_kitchen</span>
             <h3>Bir marta — ikki kun</h3>
@@ -1078,12 +1031,12 @@
 </section>
 
 <script>
+    /* ============================================================
+       ASOSIY FUNKSIONALLIK
+       ============================================================ */
     (function () {
         'use strict';
 
-        // ============================================================
-        // ELEMENTLAR
-        // ============================================================
         const cards           = Array.from(document.querySelectorAll('.recipe-card'));
         const filterButtons   = Array.from(document.querySelectorAll('#filterButtons .btn[data-budget]'));
         const favToggleBtn    = document.getElementById('favToggle');
@@ -1095,37 +1048,24 @@
         const calcBtn         = document.getElementById('calcBtn');
         const recipesRoot     = document.getElementById('recipes');
 
-        // ============================================================
-        // HOLAT (STATE)
-        // ============================================================
-        let activeBudget = 'all';   // 'all' | '100' | '150' | '300'
-        let searchQuery  = '';      // lowercase, trimmed
-        let favOnly      = false;   // faqat sevimlilarni ko'rsatish
+        let activeBudget = 'all';
+        let searchQuery  = '';
+        let favOnly      = false;
 
-        // ============================================================
-        // SEVIMLILAR (localStorage)
-        // ============================================================
         const FAV_KEY = 'musofir_favorites_v1';
         let favorites = new Set();
-
         try {
             const raw = localStorage.getItem(FAV_KEY);
             if (raw) {
                 const arr = JSON.parse(raw);
                 if (Array.isArray(arr)) favorites = new Set(arr.map(String));
             }
-        } catch (e) { /* localStorage yo'q yoki buzilgan — indamay davom etamiz */ }
+        } catch (e) {}
 
         function saveFavorites() {
-            try {
-                localStorage.setItem(FAV_KEY, JSON.stringify(Array.from(favorites)));
-            } catch (e) { /* xotira to'lgan bo'lishi mumkin */ }
+            try { localStorage.setItem(FAV_KEY, JSON.stringify(Array.from(favorites))); } catch (e) {}
         }
 
-        // ============================================================
-        // HAR BIR KARTA UCHUN QIDIRUV MATNINI TAYYORLASH
-        // (sarlavha + masalliqlar ro'yxati)
-        // ============================================================
         cards.forEach(function (card) {
             const title = ((card.querySelector('h2') || {}).textContent || '').toLowerCase();
             const ingredients = Array.from(card.querySelectorAll('.recipe-content ul li'))
@@ -1134,9 +1074,6 @@
             card.dataset.search = (title + ' ' + ingredients).trim();
         });
 
-        // ============================================================
-        // SEVIMLI TUGMALARINING KO'RINISHINI YANGILASH
-        // ============================================================
         function syncFavoriteButtons() {
             document.querySelectorAll('.fav-btn').forEach(function (btn) {
                 const id = btn.getAttribute('data-fav-id');
@@ -1149,18 +1086,8 @@
             });
         }
 
-        // ============================================================
-        // YORDAMCHI: kartani ko'rsatish / yashirish
-        // ============================================================
-        function showCard(card) {
-            card.classList.remove('is-hidden');
-            card.style.display = 'flex';
-        }
-
-        function hideCard(card) {
-            card.classList.add('is-hidden');
-            card.style.display = 'none';
-        }
+        function showCard(card) { card.classList.remove('is-hidden'); card.style.display = 'flex'; }
+        function hideCard(card) { card.classList.add('is-hidden'); card.style.display = 'none'; }
 
         function resetCalcOutput() {
             if (!calcOutput) return;
@@ -1168,26 +1095,16 @@
             calcOutput.textContent = '';
         }
 
-        // ============================================================
-        // ASOSIY: hozirgi filtr holatini qo'llash
-        // (budjet + qidiruv + sevimlilar)
-        // ============================================================
         function applyVisibility() {
             resetCalcOutput();
-
             let visibleCount = 0;
-
             cards.forEach(function (card) {
-                // Kalkulyatordan qolgan klassni tozalash
                 card.classList.remove('alternative-choice');
-
                 const cardBudget = card.getAttribute('data-budget');
                 const cardId     = card.getAttribute('data-id');
-
                 const matchesBudget = (activeBudget === 'all') || (cardBudget === activeBudget);
                 const matchesSearch = (searchQuery === '') || (card.dataset.search || '').includes(searchQuery);
                 const matchesFav    = !favOnly || favorites.has(cardId);
-
                 if (matchesBudget && matchesSearch && matchesFav) {
                     showCard(card);
                     visibleCount++;
@@ -1195,13 +1112,9 @@
                     hideCard(card);
                 }
             });
-
             if (noResults) noResults.hidden = visibleCount > 0;
         }
 
-        // ============================================================
-        // SEVIMLILAR TUGMASI (filtr) UI
-        // ============================================================
         function updateFavToggleUI() {
             if (!favToggleBtn) return;
             favToggleBtn.classList.toggle('active', favOnly);
@@ -1210,29 +1123,20 @@
             if (icon) icon.textContent = favOnly ? 'favorite' : 'favorite_border';
         }
 
-        // ============================================================
-        // KALKULYATOR ISHGA TUSHGANDA FILTRLARNI TOZALASH
-        // ============================================================
         function clearAllFiltersForCalc() {
             activeBudget = 'all';
             searchQuery  = '';
             favOnly      = false;
-
             if (searchInput) searchInput.value = '';
             if (clearSearchBtn) clearSearchBtn.hidden = true;
-
             filterButtons.forEach(function (b) {
                 const isAll = b.getAttribute('data-budget') === 'all';
                 b.classList.toggle('active', isAll);
                 b.setAttribute('aria-pressed', isAll ? 'true' : 'false');
             });
-
             updateFavToggleUI();
         }
 
-        // ============================================================
-        // BUDJET FILTR TUGMALARI
-        // ============================================================
         filterButtons.forEach(function (btn) {
             btn.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1247,9 +1151,6 @@
             });
         });
 
-        // ============================================================
-        // SEVIMLILAR FILTR TUGMASI
-        // ============================================================
         if (favToggleBtn) {
             favToggleBtn.addEventListener('click', function () {
                 favOnly = !favOnly;
@@ -1258,9 +1159,6 @@
             });
         }
 
-        // ============================================================
-        // QIDIRUV MAYDONI
-        // ============================================================
         if (searchInput) {
             searchInput.addEventListener('input', function () {
                 searchQuery = searchInput.value.trim().toLowerCase();
@@ -1280,33 +1178,24 @@
             });
         }
 
-        // ============================================================
-        // KALKULYATOR
-        // ============================================================
         function calculateMyFood() {
             if (!userBudgetInput || !calcOutput) return;
-
             const rawValue = String(userBudgetInput.value).trim();
             const userMoney = parseInt(rawValue, 10);
-
             if (!rawValue || isNaN(userMoney) || userMoney <= 0) {
                 calcOutput.style.display = 'block';
                 calcOutput.style.color = '#e74c3c';
                 calcOutput.textContent = "Iltimos, to'g'ri pul miqdorini kiriting!";
                 return;
             }
-
             clearAllFiltersForCalc();
             if (noResults) noResults.hidden = true;
-
             let exactMatches = 0;
             let closestCard  = null;
             let closestDiff  = Infinity;
-
             cards.forEach(function (card) {
                 card.classList.remove('alternative-choice');
                 const cardCost = parseInt(card.getAttribute('data-budget'), 10);
-
                 if (userMoney >= cardCost) {
                     showCard(card);
                     exactMatches++;
@@ -1319,15 +1208,12 @@
                     }
                 }
             });
-
             calcOutput.style.display = 'block';
-
             if (exactMatches > 0) {
                 calcOutput.style.color = '#27ae60';
                 calcOutput.textContent =
                     "Sizning " + userMoney + " rublingizga to'g'ri keladigan " +
                     exactMatches + " ta taom topildi!";
-
                 if (closestCard) {
                     showCard(closestCard);
                     closestCard.classList.add('alternative-choice');
@@ -1341,7 +1227,6 @@
                 calcOutput.textContent =
                     "Afsuski, " + userMoney + " rublga yetadigan taom yo'q. " +
                     "Sizga eng yaqin variantni ko'rsatmoqdamiz:";
-
                 if (closestCard) {
                     showCard(closestCard);
                     closestCard.classList.add('alternative-choice');
@@ -1354,44 +1239,24 @@
         }
 
         if (calcBtn) calcBtn.addEventListener('click', calculateMyFood);
-        if (userBudgetInput) {
-            userBudgetInput.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    calculateMyFood();
-                }
-            });
-        }
+        if (userBudgetInput) userBudgetInput.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') { e.preventDefault(); calculateMyFood(); }
+        });
 
-        // ============================================================
-        // VIDEO PLATFORMALAR
-        // ============================================================
+        /* ============ VIDEO PLATFORMALAR (faqat YouTube va VK) ============ */
         const videoPlatforms = {
             youtube: {
-                search: function (q) {
-                    return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q);
-                },
+                search: function (q) { return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q); },
                 embed: function (url) {
                     var id = extractYouTubeId(url);
                     return id ? 'https://www.youtube.com/embed/' + id + '?rel=0' : null;
                 }
             },
             vk: {
-                search: function (q) {
-                    return 'https://vk.com/video?q=' + encodeURIComponent(q);
-                },
+                search: function (q) { return 'https://vk.com/video?q=' + encodeURIComponent(q); },
                 embed: function (url) {
                     var m = url.match(/(?:vk\.com|vkvideo\.ru)\/video(-?\d+)_(\d+)/);
                     return m ? 'https://vk.com/video_ext.php?oid=' + m[1] + '&id=' + m[2] + '&hd=2' : null;
-                }
-            },
-            rutube: {
-                search: function (q) {
-                    return 'https://rutube.ru/search/?query=' + encodeURIComponent(q);
-                },
-                embed: function (url) {
-                    var m = url.match(/rutube\.ru\/(?:video|play\/embed)\/([a-f0-9]{32})/i);
-                    return m ? 'https://rutube.ru/play/embed/' + m[1] : null;
                 }
             }
         };
@@ -1408,7 +1273,7 @@
         }
 
         function resolveEmbedUrl(url) {
-            var platforms = ['youtube', 'vk', 'rutube'];
+            var platforms = ['youtube', 'vk'];
             for (var i = 0; i < platforms.length; i++) {
                 var result = videoPlatforms[platforms[i]].embed(url);
                 if (result) return result;
@@ -1417,9 +1282,7 @@
         }
 
         function loadEmbed(box, embedUrl) {
-            if (!box._originalHTML) {
-                box._originalHTML = box.innerHTML;
-            }
+            if (!box._originalHTML) box._originalHTML = box.innerHTML;
             box.classList.add('is-playing');
             box.innerHTML =
                 '<div class="video-player-wrap">' +
@@ -1441,34 +1304,20 @@
             }
         }
 
-        // ============================================================
-        // RECIPES ROOT UCHUN YAGONA DELEGATSIYA (sevimli + video)
-        // ============================================================
         if (recipesRoot) {
-
             recipesRoot.addEventListener('click', function (e) {
-
-                // 1) Sevimli yurakchasi
                 var favBtn = e.target.closest('.fav-btn');
                 if (favBtn) {
                     e.preventDefault();
                     var favId = favBtn.getAttribute('data-fav-id');
                     if (!favId) return;
-
-                    if (favorites.has(favId)) {
-                        favorites.delete(favId);
-                    } else {
-                        favorites.add(favId);
-                    }
+                    if (favorites.has(favId)) favorites.delete(favId);
+                    else favorites.add(favId);
                     saveFavorites();
                     syncFavoriteButtons();
-
-                    // Agar "faqat sevimlilar" rejimida bo'lsak — darhol qayta filtrlaymiz
                     if (favOnly) applyVisibility();
                     return;
                 }
-
-                // 2) Platforma tugmasi — qidiruv
                 var platformBtn = e.target.closest('.platform-btn');
                 if (platformBtn) {
                     var pBox = platformBtn.closest('.video-box');
@@ -1479,15 +1328,12 @@
                     }
                     return;
                 }
-
-                // 3) Havoladan video yuklash
                 var linkBtn = e.target.closest('.video-link-btn');
                 if (linkBtn) {
                     var lBox = linkBtn.closest('.video-box');
                     var input = lBox.querySelector('.video-link-input');
                     var url = input ? input.value.trim() : '';
                     if (!url) { if (input) input.focus(); return; }
-
                     var embedUrl = resolveEmbedUrl(url);
                     if (embedUrl) {
                         loadEmbed(lBox, embedUrl);
@@ -1502,8 +1348,6 @@
                     }
                     return;
                 }
-
-                // 4) Video orqaga qaytish
                 var backBtn = e.target.closest('.video-back-btn');
                 if (backBtn) {
                     var bBox = backBtn.closest('.video-box');
@@ -1512,7 +1356,6 @@
                 }
             });
 
-            // Enter — havola maydonida
             recipesRoot.addEventListener('keydown', function (e) {
                 if (e.key === 'Enter' && e.target.classList.contains('video-link-input')) {
                     e.preventDefault();
@@ -1524,14 +1367,86 @@
             });
         }
 
-        // ============================================================
-        // BOSHLANG'ICH HOLAT
-        // ============================================================
         syncFavoriteButtons();
         updateFavToggleUI();
-        // Boshlang'ich holatda barcha kartalar ko'rinadi
         applyVisibility();
 
+    })();
+
+    /* ============================================================
+       PWA — SERVICE WORKER + INSTALL PROMPT + OFFLINE
+       ============================================================ */
+    (function () {
+        'use strict';
+
+        const installBtn   = document.getElementById('installBtn');
+        const offlineToast = document.getElementById('offlineToast');
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('./service-worker.js', { scope: './' })
+                    .then(function (reg) { console.log('[PWA] Service Worker ro\'yxatga olindi:', reg.scope); })
+                    .catch(function (err) { console.warn('[PWA] SW xato:', err); });
+            });
+        }
+
+        let deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', function (e) {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (installBtn) installBtn.classList.add('is-visible');
+        });
+
+        if (installBtn) {
+            installBtn.addEventListener('click', async function () {
+                if (!deferredPrompt && isIOS() && !isStandalone()) {
+                    alert(
+                        "iPhone / iPad da o'rnatish uchun:\n\n" +
+                        "1. Safari pastidagi «Ulashish» tugmasini bosing\n" +
+                        "2. «Bosh ekranga qo'shish» tanlang\n" +
+                        "3. «Qo'shish» ni bosing"
+                    );
+                    return;
+                }
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log('[PWA] Install natijasi:', outcome);
+                deferredPrompt = null;
+                installBtn.classList.remove('is-visible');
+            });
+        }
+
+        if (isIOS() && !isStandalone() && installBtn) {
+            installBtn.classList.add('is-visible');
+        }
+
+        window.addEventListener('appinstalled', function () {
+            console.log('[PWA] Ilova o\'rnatildi');
+            if (installBtn) installBtn.classList.remove('is-visible');
+        });
+
+        function updateOnlineStatus() {
+            if (!offlineToast) return;
+            if (navigator.onLine) offlineToast.classList.remove('is-visible');
+            else offlineToast.classList.add('is-visible');
+        }
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+        updateOnlineStatus();
+
+        if (isStandalone() && installBtn) {
+            installBtn.classList.remove('is-visible');
+        }
+
+        function isIOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        }
+        function isStandalone() {
+            return window.matchMedia('(display-mode: standalone)').matches ||
+                window.navigator.standalone === true;
+        }
     })();
 </script>
 </body>
