@@ -50,8 +50,7 @@ Kerakli mahsulotlar:
 ## Kartoshka va Non
 
 1. Kartoshka 50₽ dan 110₽/1кг - ushbu narx tahminan Magazinlardan olingan va siz dexqon bozorlaridan xarid qilsangiz 30% dan 50% gacha tejab qolishingiz mumkin!
-2. Non
-3. Tuz va ozgina o'simlik yog'i
+2. Non, Tuz va ozgina o'simlik yog'i
 
 -- Kerakli masalliqlar. 
 
