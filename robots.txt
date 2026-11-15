@@ -1,0 +1,6 @@
+# Barcha qidiruv robotlariga ruxsat berish
+User-agent: *
+Allow: /
+
+# Sitemap manzilini ko'rsatish
+Sitemap: https://musofir-ovqatlari.ru/sitemap.xml
