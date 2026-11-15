@@ -38,6 +38,7 @@ Kerakli mahsulotlar:
 ____________________________________________________________________________
 
 # Oson Qovuriladigan ovqatlar / Tezkor Qovurma taomlar
+Eng arzon va hamma doʻkonlarda topiladigan mahsulotlardan tayyorlanadigan juda toʻyimli taomlar.
 
 ## Tuxum va Non
 Kerakli mahsulotlar:
@@ -51,6 +52,22 @@ Kerakli mahsulotlar:
 1. Kartoshka 50₽ dan 110₽/1кг - ushbu narx tahminan Magazinlardan olingan va siz dexqon bozorlaridan xarid qilsangiz 30% dan 50% gacha tejab qolishingiz mumkin!
 2. Non
 3. Tuz va ozgina o'simlik yog'i
+
+-- Kerakli masalliqlar. 
+
+1. 2–3 dona kartoshka, 3 dona tuxum, 1 ta piyoz, oʻsimlik yogʻi, tuz va murch.
+2. Tayyorlanishi. Kartoshka va piyozni yupqa parrak qilib toʻgʻrab, qizigan yogʻda qizarguncha qovuring. Ustidan tuz va murch bilan atalangan tuxumni quying, qopqogʻini yopib past olovda 5–7 daqiqa pishiring.
+
+## Kartoshka qovurish
+## Piyoz qovurish
+## Kartoshka va Tuxum
+## Kartoshka va Piyoz
+## Kartoshka va Sosiska/Kalbasa
+## Kartoshka va Piyos va Sosiska/Kalbasa
+
+## Tuxum va Piyoz
+## Tuxum va Pomidor / https://www.youtube.com/watch?v=EHusmJwr_XY/
+
 
 ____________________________________________________________________________
 
