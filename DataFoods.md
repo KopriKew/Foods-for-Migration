@@ -35,8 +35,9 @@ Kerakli mahsulotlar:
 1. Шоколад Alpen Gold и Алёнка: 80г / ~78₽ - 100₽ 
 2. Qora non: Хлеб Бородинский особый ржано-пшеничный ХК Лавина 450г / Хлеб Бездрожжевой ржаной 500г / 70 ₽
 
+____________________________________________________________________________
 
-# Oson Qovuriladigan ovqatlar
+# Oson Qovuriladigan ovqatlar / Tezkor Qovurma taomlar
 
 ## Tuxum va Non
 Kerakli mahsulotlar:
