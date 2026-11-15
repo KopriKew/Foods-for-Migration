@@ -470,10 +470,10 @@
         }
 
         /* KARTALAR */
+        /* Pinterest uslubidagi Masonry Layout */
         .recipes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            column-width: 320px; /* Ustunlar kengligi */
+            column-gap: 30px;    /* Ustunlar orasidagi masofa */
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
@@ -485,8 +485,14 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
             position: relative;
-            display: flex;
+
+            /* Masonry uchun maxsus sozlamalar */
+            display: inline-flex; /* flex o'rniga inline-flex */
             flex-direction: column;
+            width: 100%;
+            margin-bottom: 30px;
+            break-inside: avoid; /* Kartochka ustunlar orasida bo'linib ketmasligi uchun */
+
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
@@ -495,7 +501,19 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
 
-        .recipe-card.is-hidden { display: none !important; }
+        .recipe-card.is-hidden {
+            display: none !important;
+        }
+
+        /* Loading holati butun ekran bo'ylab chiqishi uchun */
+        .loading-state {
+            column-span: all;
+            text-align: center;
+            padding: 60px 20px;
+            color: #8a93a1;
+        }
+
+
 
         .fav-btn {
             position: absolute;
@@ -810,8 +828,53 @@
             header h1 { font-size: 1.9rem; }
             header h1 .material-icons { font-size: 1.7rem; }
         }
+
+        /* ===== AKKORDEON (BATAFSIL) UCHUN STILLAR ===== */
+        .toggle-details-btn {
+            width: 100%;
+            padding: 12px 15px;
+            margin-top: 10px;
+            background: #f0f4f8;
+            border: 1px solid #d0d7e2;
+            border-radius: 8px;
+            color: #2a5298;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background 0.2s, border-color 0.2s;
+            font-family: inherit;
+        }
+        .toggle-details-btn:hover { background: #e1e8f0; }
+        .toggle-details-btn .material-icons {
+            transition: transform 0.3s;
+            font-size: 1.25rem;
+        }
+
+        /* Tugma bosilganda ikonka aylanadi */
+        .recipe-card.is-open .toggle-details-btn .material-icons {
+            transform: rotate(180deg);
+        }
+
+        /* Yashirin ma'lumotlar qismi */
+        .recipe-details {
+            display: none;
+            margin-top: 15px;
+            border-top: 1px dashed #e0e4ea;
+            padding-top: 15px;
+        }
+
+        /* Batafsil bosilganda ko'rinadi */
+        .recipe-card.is-open .recipe-details {
+            display: block;
+            animation: fade-in 0.3s ease;
+        }
     </style>
 </head>
+
 <body>
 
 <div class="offline-toast" id="offlineToast" role="status" aria-live="polite">
@@ -858,16 +921,13 @@
     <div class="calc-result-text" id="calcOutput"></div>
 </section>
 
+<hr class="section-divider">
+
 <section class="filter-container" id="retseptlar">
 
     <div class="search-box">
         <span class="material-icons search-icon" aria-hidden="true">search</span>
-        <input
-                type="text"
-                id="searchInput"
-                placeholder="Taom yoki masalliq qidirish..."
-                autocomplete="off"
-                aria-label="Retsept qidirish">
+        <input type="text" id="searchInput" placeholder="Taom yoki masalliq qidirish..." autocomplete="off" aria-label="Retsept qidirish">
         <button type="button" class="clear-btn" id="clearSearch" aria-label="Qidiruvni tozalash" hidden>
             <span class="material-icons">close</span>
         </button>
@@ -875,7 +935,7 @@
 
     <h4>Toifa yoki sevimlilar bo'yicha:</h4>
     <div class="filter-buttons" id="filterButtons">
-        <!-- Byudjet tugmalari JS tomonidan DataFoods.json dan avtomatik yaratiladi -->
+        <!-- Byudjet tugmalari JS tomonidan avtomatik yaratiladi -->
         <button type="button" class="btn fav-toggle" id="favToggle" aria-pressed="false">
             <span class="material-icons">favorite_border</span>
             <span>Sevimlilar</span>
@@ -884,7 +944,7 @@
 </section>
 
 <main class="recipes-grid" id="recipes">
-    <!-- Retseptlar DataFoods.json dan fetch() orqali yuklanadi -->
+    <!-- Retseptlar DataFoods.json dan yuklanadi -->
 </main>
 
 <div class="no-results" id="noResults" hidden>
@@ -925,7 +985,7 @@
 
 <script>
     /* ============================================================
-       ASOSIY FUNKSIONALLIK — DataFoods.json dan yuklash
+       ASOSIY FUNKSIONALLIK — DataFoods.json dan yuklash & Akkordeon
        ============================================================ */
     (function () {
         'use strict';
@@ -948,7 +1008,7 @@
         let searchQuery   = '';
         let favOnly       = false;
 
-        /* ---------- Favorites (localStorage) ---------- */
+        /* ---------- Favorites ---------- */
         const FAV_KEY = 'musofir_favorites_v1';
         let favorites = new Set();
         try {
@@ -971,28 +1031,18 @@
         }
 
         function getSavingTip(recipe) {
-            if (recipe.note) {
-                return '<strong>Tejamkorlik siri:</strong> ' + escapeHTML(recipe.note);
-            }
-            const names = recipe.ingredients.map(function (i) {
-                return String(i.name || '').toLowerCase();
-            }).join(' ');
+            if (recipe.note) return '<strong>Tejamkorlik siri:</strong> ' + escapeHTML(recipe.note);
+            const names = recipe.ingredients.map(i => String(i.name || '').toLowerCase()).join(' ');
 
-            if (names.indexOf('kartoshka') !== -1)
-                return '<strong>Tejamkorlik siri:</strong> Kartoshkani dehqon bozoridan oling — 30–50% tejaysiz!';
-            if (names.indexOf('tuxum') !== -1)
-                return '<strong>Keshbek siri:</strong> "Pyaterochka" yoki "Magnit" ilovasida tuxum uchun chegirmali kuponlar bo\'ladi.';
-            if (names.indexOf('sosiska') !== -1 || names.indexOf('kalbasa') !== -1)
-                return '<strong>Kechki chegirma:</strong> Sosiska va kalbasa soat 20:00 dan keyin 20–30% arzonlashadi!';
-            if (names.indexOf('pomidor') !== -1)
-                return '<strong>Mavsumiy maslahat:</strong> Pomidorni bozordan oling — do\'kondagidan 2x arzon.';
-            if (names.indexOf('piyoz') !== -1)
-                return '<strong>Tejamkorlik siri:</strong> Piyozni 1–2 kg qilib bozordan oling — uzoq saqlanadi.';
-
+            if (names.includes('kartoshka')) return '<strong>Tejamkorlik siri:</strong> Kartoshkani dehqon bozoridan oling — 30–50% tejaysiz!';
+            if (names.includes('tuxum')) return '<strong>Keshbek siri:</strong> "Pyaterochka" yoki "Magnit" ilovasida tuxum uchun chegirmali kuponlar bo\'ladi.';
+            if (names.includes('sosiska') || names.includes('kalbasa')) return '<strong>Kechki chegirma:</strong> Sosiska va kalbasa soat 20:00 dan keyin 20–30% arzonlashadi!';
+            if (names.includes('pomidor')) return '<strong>Mavsumiy maslahat:</strong> Pomidorni bozordan oling — do\'kondagidan 2x arzon.';
+            if (names.includes('piyoz')) return '<strong>Tejamkorlik siri:</strong> Piyozni 1–2 kg qilib bozordan oling — uzoq saqlanadi.';
             return '<strong>Maslahat:</strong> Barcha masalliqlarni bozordan oling — o\'rtacha 20–30% tejaysiz.';
         }
 
-        /* ---------- Render ---------- */
+        /* ---------- Render (Akkordeon tuzilmasi bilan) ---------- */
         function recipeToHTML(recipe) {
             const recipeName = recipe.name || '';
             const budgetCat  = recipe.budgetCategory != null ? recipe.budgetCategory : 0;
@@ -1002,7 +1052,8 @@
             const servings   = recipe.servings || '';
             const savingTip  = getSavingTip(recipe);
 
-            const ingredientsHTML = (recipe.ingredients || []).map(function (ing) {
+            // Masalliqlar ro'yxati
+            const ingredientsHTML = (recipe.ingredients || []).map(ing => {
                 let text = escapeHTML(ing.name);
                 if (ing.quantity)    text += ' (' + escapeHTML(ing.quantity) + ')';
                 if (ing.alternative) text += ' ' + escapeHTML(ing.alternative);
@@ -1011,9 +1062,18 @@
                 return '<li>' + text + '</li>';
             }).join('');
 
-            const stepsHTML = (recipe.steps || []).map(function (s) {
-                return '<li>' + escapeHTML(s) + '</li>';
-            }).join('');
+            // Qadamlar ro'yxati
+            const stepsHTML = (recipe.steps || []).map(s => '<li>' + escapeHTML(s) + '</li>').join('');
+
+            // Yashirin qism (Batafsil)
+            const detailsHTML =
+                '<div class="recipe-details" style="display:none; margin-top:15px; border-top:1px dashed #e0e4ea; padding-top:15px;">' +
+                (savingTip ? '<div class="saving-tip" style="margin-bottom:15px;"><span class="material-icons" style="font-size:1.1rem; color:#f39c12; vertical-align:-0.2em;">lightbulb</span> ' + savingTip + '</div>' : '') +
+                '<h3 style="font-size:1.05rem; color:#34495e; margin-bottom:8px;">Kerakli mahsulotlar:</h3>' +
+                '<ul style="margin-left:20px; margin-bottom:15px; font-size:0.95rem; color:#444;">' + ingredientsHTML + '</ul>' +
+                '<h3 style="font-size:1.05rem; color:#34495e; margin-bottom:8px;">Tayyorlanishi:</h3>' +
+                '<ol style="margin-left:20px; font-size:0.95rem; color:#444; line-height:1.6;">' + stepsHTML + '</ol>' +
+                '</div>';
 
             return (
                 '<div class="recipe-card" data-budget="' + budgetCat + '" data-price-min="' + priceMin + '" data-id="' + (recipe.id || '') + '">' +
@@ -1041,15 +1101,18 @@
                 '</div>' +
                 '<div class="recipe-content">' +
                 '<h2>' + escapeHTML(recipeName) + '</h2>' +
-                '<p class="recipe-meta">' +
-                '<span class="material-icons">schedule</span> ' + escapeHTML(timeDisp) +
-                ' · <span class="material-icons">people</span> ' + escapeHTML(servings) +
+                '<p class="recipe-meta" style="display:flex; gap:10px; font-size:0.85rem; color:#6b7385; margin-bottom:12px;">' +
+                '<span><span class="material-icons" style="font-size:1rem; vertical-align:-0.15em; color:#2a5298;">schedule</span> ' + escapeHTML(timeDisp) + '</span>' +
+                '<span><span class="material-icons" style="font-size:1rem; vertical-align:-0.15em; color:#2a5298;">people</span> ' + escapeHTML(servings) + '</span>' +
                 '</p>' +
-                (savingTip ? '<div class="saving-tip"><span class="material-icons">lightbulb</span>' + savingTip + '</div>' : '') +
-                '<h3>Kerakli mahsulotlar:</h3>' +
-                '<ul>' + ingredientsHTML + '</ul>' +
-                '<h3>Tayyorlanishi:</h3>' +
-                '<ol class="recipe-steps">' + stepsHTML + '</ol>' +
+
+                // BATAFSIL TUGMASI
+                '<button type="button" class="toggle-details-btn" style="width:100%; padding:10px; margin-top:5px; background:#f0f4f8; border:1px solid #d0d7e2; border-radius:8px; color:#2a5298; font-weight:600; font-size:0.95rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition: background 0.2s;">' +
+                '<span class="material-icons expand-icon" style="transition: transform 0.3s;">expand_more</span>' +
+                '<span class="toggle-text">Batafsil</span>' +
+                '</button>' +
+
+                detailsHTML +
                 '</div>' +
                 '</div>'
             );
@@ -1059,17 +1122,14 @@
             recipesRoot.innerHTML = recipes.map(recipeToHTML).join('');
         }
 
-        /* ---------- Filter buttons (dinamik) ---------- */
+        /* ---------- Filter buttons ---------- */
         function buildFilterButtons(recipes) {
-            filterButtonsContainer.querySelectorAll('.btn[data-budget]').forEach(function (b) { b.remove(); });
-
+            filterButtonsContainer.querySelectorAll('.btn[data-budget]').forEach(b => b.remove());
             const budgets = [];
-            recipes.forEach(function (r) {
-                if (r.budgetCategory != null && budgets.indexOf(r.budgetCategory) === -1) {
-                    budgets.push(r.budgetCategory);
-                }
+            recipes.forEach(r => {
+                if (r.budgetCategory != null && !budgets.includes(r.budgetCategory)) budgets.push(r.budgetCategory);
             });
-            budgets.sort(function (a, b) { return a - b; });
+            budgets.sort((a, b) => a - b);
 
             const allBtn = document.createElement('button');
             allBtn.type = 'button';
@@ -1079,7 +1139,7 @@
             allBtn.textContent = 'Hammasi';
             filterButtonsContainer.insertBefore(allBtn, favToggleBtn);
 
-            budgets.forEach(function (budget) {
+            budgets.forEach(budget => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
                 btn.className = 'btn';
@@ -1094,10 +1154,10 @@
         }
 
         function attachFilterListeners() {
-            filterButtons.forEach(function (btn) {
-                btn.addEventListener('click', function (e) {
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    filterButtons.forEach(function (b) {
+                    filterButtons.forEach(b => {
                         b.classList.remove('active');
                         b.setAttribute('aria-pressed', 'false');
                     });
@@ -1111,7 +1171,7 @@
 
         /* ---------- Visibility ---------- */
         function syncFavoriteButtons() {
-            document.querySelectorAll('.fav-btn').forEach(function (btn) {
+            document.querySelectorAll('.fav-btn').forEach(btn => {
                 const id = btn.getAttribute('data-fav-id');
                 const isFav = favorites.has(id);
                 btn.classList.toggle('is-fav', isFav);
@@ -1122,8 +1182,15 @@
             });
         }
 
-        function showCard(card) { card.classList.remove('is-hidden'); card.style.display = 'flex'; }
-        function hideCard(card) { card.classList.add('is-hidden'); card.style.display = 'none'; }
+        function showCard(card) {
+            card.classList.remove('is-hidden');
+            card.style.display = 'inline-flex'; // 'flex' emas, 'inline-flex' bo'lishi shart
+        }
+
+        function hideCard(card) {
+            card.classList.add('is-hidden');
+            card.style.display = 'none';
+        }
 
         function resetCalcOutput() {
             if (!calcOutput) return;
@@ -1134,7 +1201,7 @@
         function applyVisibility() {
             resetCalcOutput();
             let visibleCount = 0;
-            cards.forEach(function (card) {
+            cards.forEach(card => {
                 card.classList.remove('alternative-choice');
                 const cardBudget = card.getAttribute('data-budget');
                 const cardId     = card.getAttribute('data-id');
@@ -1165,7 +1232,7 @@
             favOnly      = false;
             if (searchInput) searchInput.value = '';
             if (clearSearchBtn) clearSearchBtn.hidden = true;
-            filterButtons.forEach(function (b) {
+            filterButtons.forEach(b => {
                 const isAll = b.getAttribute('data-budget') === 'all';
                 b.classList.toggle('active', isAll);
                 b.setAttribute('aria-pressed', isAll ? 'true' : 'false');
@@ -1173,7 +1240,7 @@
             updateFavToggleUI();
         }
 
-        /* ---------- Calculator (data-price-min bilan) ---------- */
+        /* ---------- Calculator ---------- */
         function calculateMyFood() {
             if (!userBudgetInput || !calcOutput) return;
             const rawValue = String(userBudgetInput.value).trim();
@@ -1189,7 +1256,8 @@
             let exactMatches = 0;
             let closestCard  = null;
             let closestDiff  = Infinity;
-            cards.forEach(function (card) {
+
+            cards.forEach(card => {
                 card.classList.remove('alternative-choice');
                 const cardCost = parseInt(card.getAttribute('data-price-min'), 10) || 0;
                 if (userMoney >= cardCost) {
@@ -1207,34 +1275,28 @@
             calcOutput.style.display = 'block';
             if (exactMatches > 0) {
                 calcOutput.style.color = '#27ae60';
-                calcOutput.textContent =
-                    "Sizning " + userMoney + " rublingizga to'g'ri keladigan " + exactMatches + " ta taom topildi!";
+                calcOutput.textContent = "Sizning " + userMoney + " rublingizga to'g'ri keladigan " + exactMatches + " ta taom topildi!";
                 if (closestCard) {
                     showCard(closestCard);
                     closestCard.classList.add('alternative-choice');
                     const az = closestCard.querySelector('.insufficient-funds-alert');
-                    if (az) az.innerHTML =
-                        '<span class="material-icons alert-icon">warning</span> Ushbu taomga yana ' +
-                        closestDiff + " rubl yetmadi. Xonadoshingiz bilan birlashsangiz bo'ladi!";
+                    if (az) az.innerHTML = '<span class="material-icons alert-icon">warning</span> Ushbu taomga yana ' + closestDiff + " rubl yetmadi. Xonadoshingiz bilan birlashsangiz bo'ladi!";
                 }
             } else {
                 calcOutput.style.color = '#e67e22';
-                calcOutput.textContent =
-                    "Afsuski, " + userMoney + " rublga yetadigan taom yo'q. Sizga eng yaqin variantni ko'rsatmoqdamiz:";
+                calcOutput.textContent = "Afsuski, " + userMoney + " rublga yetadigan taom yo'q. Sizga eng yaqin variantni ko'rsatmoqdamiz:";
                 if (closestCard) {
                     showCard(closestCard);
                     closestCard.classList.add('alternative-choice');
                     const az2 = closestCard.querySelector('.insufficient-funds-alert');
-                    if (az2) az2.innerHTML =
-                        '<span class="material-icons alert-icon">warning</span> Ushbu taomni tayyorlash uchun sizga yana ' +
-                        closestDiff + " rubl kerak.";
+                    if (az2) az2.innerHTML = '<span class="material-icons alert-icon">warning</span> Ushbu taomni tayyorlash uchun sizga yana ' + closestDiff + " rubl kerak.";
                 }
             }
         }
 
-        /* ---------- Static event listeners ---------- */
+        /* ---------- Event Listeners ---------- */
         if (favToggleBtn) {
-            favToggleBtn.addEventListener('click', function () {
+            favToggleBtn.addEventListener('click', () => {
                 favOnly = !favOnly;
                 updateFavToggleUI();
                 applyVisibility();
@@ -1242,7 +1304,7 @@
         }
 
         if (searchInput) {
-            searchInput.addEventListener('input', function () {
+            searchInput.addEventListener('input', () => {
                 searchQuery = searchInput.value.trim().toLowerCase();
                 if (clearSearchBtn) clearSearchBtn.hidden = searchQuery === '';
                 applyVisibility();
@@ -1250,7 +1312,7 @@
         }
 
         if (clearSearchBtn) {
-            clearSearchBtn.addEventListener('click', function () {
+            clearSearchBtn.addEventListener('click', () => {
                 if (!searchInput) return;
                 searchInput.value = '';
                 searchQuery = '';
@@ -1261,18 +1323,43 @@
         }
 
         if (calcBtn) calcBtn.addEventListener('click', calculateMyFood);
-        if (userBudgetInput) userBudgetInput.addEventListener('keydown', function (e) {
+        if (userBudgetInput) userBudgetInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') { e.preventDefault(); calculateMyFood(); }
         });
 
-        /* ---------- Video + Favorites (event delegation) ---------- */
+        /* ---------- Video + Favorites + Akkordeon ---------- */
         const videoPlatforms = {
-            youtube: { search: function (q) { return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q); } },
-            vk:      { search: function (q) { return 'https://vk.com/video?q=' + encodeURIComponent(q); } }
+            youtube: { search: (q) => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q) },
+            vk:      { search: (q) => 'https://vk.com/video?q=' + encodeURIComponent(q) }
         };
 
         if (recipesRoot) {
-            recipesRoot.addEventListener('click', function (e) {
+            recipesRoot.addEventListener('click', (e) => {
+
+                // 1. BATAFSIL TUGMASI
+                const toggleBtn = e.target.closest('.toggle-details-btn');
+                if (toggleBtn) {
+                    e.preventDefault();
+                    const card = toggleBtn.closest('.recipe-card');
+                    const detailsDiv = card.querySelector('.recipe-details');
+                    const icon = toggleBtn.querySelector('.expand-icon');
+                    const text = toggleBtn.querySelector('.toggle-text');
+
+                    if (detailsDiv.style.display === 'none') {
+                        detailsDiv.style.display = 'block';
+                        icon.style.transform = 'rotate(180deg)';
+                        text.textContent = 'Yopish';
+                        toggleBtn.style.background = '#e1e8f0';
+                    } else {
+                        detailsDiv.style.display = 'none';
+                        icon.style.transform = 'rotate(0deg)';
+                        text.textContent = 'Batafsil';
+                        toggleBtn.style.background = '#f0f4f8';
+                    }
+                    return;
+                }
+
+                // 2. SEVIMLILAR
                 const favBtn = e.target.closest('.fav-btn');
                 if (favBtn) {
                     e.preventDefault();
@@ -1285,6 +1372,8 @@
                     if (favOnly) applyVisibility();
                     return;
                 }
+
+                // 3. VIDEO PLATFORMALAR
                 const platformBtn = e.target.closest('.platform-btn');
                 if (platformBtn) {
                     const pBox = platformBtn.closest('.video-box');
@@ -1297,47 +1386,35 @@
             });
         }
 
-        /* ---------- Loading / Error holatlari ---------- */
+        /* ---------- Loading / Error / Boshlash ---------- */
         function showLoadingState() {
-            recipesRoot.innerHTML =
-                '<div class="loading-state">' +
-                '<span class="material-icons">hourglass_empty</span>' +
-                '<p>Retseptlar yuklanmoqda...</p>' +
-                '</div>';
+            recipesRoot.innerHTML = '<div style="text-align:center; padding:60px 20px; grid-column:1/-1; color:#8a93a1;"><span class="material-icons" style="font-size:3rem; color:#c5cbd4; margin-bottom:12px;">hourglass_empty</span><p>Retseptlar yuklanmoqda...</p></div>';
         }
 
         function showErrorState(err) {
             console.error('[Recipes] Yuklashda xato:', err);
-            recipesRoot.innerHTML =
-                '<div class="loading-state">' +
-                '<span class="material-icons" style="color:#e74c3c;">error_outline</span>' +
-                '<p style="color:#e74c3c;">Retseptlarni yuklab bo\'lmadi</p>' +
-                '<p style="font-size:0.85rem;color:#aab1bd;margin-top:6px;">Internetni tekshiring yoki sahifani yangilang.</p>' +
-                '<button type="button" onclick="location.reload()" class="calc-btn" style="margin-top:16px;">Qayta yuklash</button>' +
-                '</div>';
+            recipesRoot.innerHTML = '<div style="text-align:center; padding:60px 20px; grid-column:1/-1;"><span class="material-icons" style="font-size:3rem; color:#e74c3c; margin-bottom:12px;">error_outline</span><p style="color:#e74c3c; font-weight:bold;">Retseptlarni yuklab bo\'lmadi</p><p style="font-size:0.85rem; color:#aab1bd; margin-top:6px;">Fayl mavjudligini tekshiring yoki internetni yoqing.</p><button onclick="location.reload()" style="margin-top:16px; padding:10px 20px; background:#2a5298; color:#fff; border:none; border-radius:8px; cursor:pointer;">Qayta yuklash</button></div>';
         }
 
-        /* ---------- Boshlash ---------- */
         async function loadRecipes() {
             showLoadingState();
             try {
+                // JSON fayl manzili to'g'ri ekanligiga ishonch hosil qiling!
                 const response = await fetch('./data/DataFoods.json');
-                if (!response.ok) throw new Error('HTTP ' + response.status + ' — ' + response.statusText);
+                if (!response.ok) throw new Error('HTTP ' + response.status);
                 const data = await response.json();
 
                 if (!data || !Array.isArray(data.recipes) || data.recipes.length === 0) {
-                    throw new Error("JSON formati noto'g'ri yoki bo'sh");
+                    throw new Error("JSON formati noto'g'ri");
                 }
 
                 renderRecipes(data.recipes);
                 cards = Array.from(document.querySelectorAll('.recipe-card'));
 
-                /* Har bir karta uchun qidiruv indeksini tayyorlash */
-                cards.forEach(function (card) {
+                // Qidiruv uchun indeks yaratish
+                cards.forEach(card => {
                     const title = ((card.querySelector('h2') || {}).textContent || '').toLowerCase();
-                    const ingredients = Array.from(card.querySelectorAll('.recipe-content ul li'))
-                        .map(function (li) { return li.textContent.toLowerCase(); })
-                        .join(' ');
+                    const ingredients = Array.from(card.querySelectorAll('ul li')).map(li => li.textContent.toLowerCase()).join(' ');
                     card.dataset.search = (title + ' ' + ingredients).trim();
                 });
 
@@ -1358,54 +1435,38 @@
        ============================================================ */
     (function () {
         'use strict';
-
         const installBtn   = document.getElementById('installBtn');
         const offlineToast = document.getElementById('offlineToast');
 
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function () {
-                navigator.serviceWorker.register('./service-worker.js', { scope: './' })
-                    .then(function (reg) { console.log('[PWA] Service Worker ro\'yxatga olindi:', reg.scope); })
-                    .catch(function (err) { console.warn('[PWA] SW xato:', err); });
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js', { scope: './' }).catch(err => console.warn('[PWA] SW xato:', err));
             });
         }
 
         let deferredPrompt = null;
-
-        window.addEventListener('beforeinstallprompt', function (e) {
+        window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
             if (installBtn) installBtn.classList.add('is-visible');
         });
 
         if (installBtn) {
-            installBtn.addEventListener('click', async function () {
+            installBtn.addEventListener('click', async () => {
                 if (!deferredPrompt && isIOS() && !isStandalone()) {
-                    alert(
-                        "iPhone / iPad da o'rnatish uchun:\n\n" +
-                        "1. Safari pastidagi «Ulashish» tugmasini bosing\n" +
-                        "2. «Bosh ekranga qo'shish» tanlang\n" +
-                        "3. «Qo'shish» ni bosing"
-                    );
+                    alert("iPhone / iPad da o'rnatish uchun:\n\n1. Safari pastidagi «Ulashish» tugmasini bosing\n2. «Bosh ekranga qo'shish» tanlang\n3. «Qo'shish» ni bosing");
                     return;
                 }
                 if (!deferredPrompt) return;
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
-                console.log('[PWA] Install natijasi:', outcome);
                 deferredPrompt = null;
                 installBtn.classList.remove('is-visible');
             });
         }
 
-        if (isIOS() && !isStandalone() && installBtn) {
-            installBtn.classList.add('is-visible');
-        }
-
-        window.addEventListener('appinstalled', function () {
-            console.log('[PWA] Ilova o\'rnatildi');
-            if (installBtn) installBtn.classList.remove('is-visible');
-        });
+        if (isIOS() && !isStandalone() && installBtn) installBtn.classList.add('is-visible');
+        window.addEventListener('appinstalled', () => { if (installBtn) installBtn.classList.remove('is-visible'); });
 
         function updateOnlineStatus() {
             if (!offlineToast) return;
@@ -1416,18 +1477,12 @@
         window.addEventListener('offline', updateOnlineStatus);
         updateOnlineStatus();
 
-        if (isStandalone() && installBtn) {
-            installBtn.classList.remove('is-visible');
-        }
+        if (isStandalone() && installBtn) installBtn.classList.remove('is-visible');
 
-        function isIOS() {
-            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        }
-        function isStandalone() {
-            return window.matchMedia('(display-mode: standalone)').matches ||
-                window.navigator.standalone === true;
-        }
+        function isIOS() { return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream; }
+        function isStandalone() { return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
     })();
 </script>
 </body>
+
 </html>
