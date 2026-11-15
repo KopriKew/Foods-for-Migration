@@ -31,3 +31,10 @@ Tovuq (Okorochka yoki butun tovuq) / 2 kg / Eng arzon goʻshtli oqsil manbai
 Tuxum / 1-2 desyatka / Nonushta va tezkor kechki ovqatlar uchun
 Piyoz va Sabzi / 1-2 kg dan	/ Barcha taomlarning qaylasi (zajarka) uchun
 Oʻsimlik yogʻi / 1 litr / Qovurish va ovqatlar asosi
+
+
+## Hosting va Doment:
+Hosting va Doment: https://timeweb.cloud/r/is51340/ + my referrals
+1. https://musofir-ovqatlari.ru/
+2. https://koprikew-foods-for-migration-f355.twc1.net/
+
