@@ -35,6 +35,9 @@ Kerakli mahsulotlar:
 1. Шоколад Alpen Gold и Алёнка: 80г / ~78₽ - 100₽ 
 2. Qora non: Хлеб Бородинский особый ржано-пшеничный ХК Лавина 450г / Хлеб Бездрожжевой ржаной 500г / 70 ₽
 
+
+# Oson Qovuriladigan ovqatlar
+
 ## Tuxum va Non
 Kerakli mahsulotlar:
 
@@ -42,9 +45,20 @@ Kerakli mahsulotlar:
 2. Tuz va ozgina o'simlik yog'i
 
 
+## Kartoshka va Non
+
+1. Kartoshka 50₽ dan 110₽/1кг - ushbu narx tahminan Magazinlardan olingan va siz dexqon bozorlaridan xarid qilsangiz 30% dan 50% gacha tejab qolishingiz mumkin!
+2. Non
+3. Tuz va ozgina o'simlik yog'i
+
+____________________________________________________________________________
+
+# Maxsulotlar
+
 ## O'simlik yog'i - larni  sotib olish
 Rossiya davlat sifat nazorati tashkiloti (Rossiya davlat sifat nazorati tashkiloti (Роскачество: https://rskrf.ru/ratings/produkty-pitaniya/maslo-rastitelnoe/rafinirovannoe-podsolnechnoe-maslo/) tekshiruvlariga ko'ra, eng arzon brendlar va tozalik ham havfsizlik va tozalik talablariga javob beradi.
 
 1. Золотая семечка 500мл: 80 ₽ / 1л: 150 ₽ / 1.8л: 278 ₽ / 3л: 410 rub - Klassik brendlar. Qiziganda barqaror, har qanday taom va salatlar uchun universal mos keladi.
 
-
+## Tuz / Соль
+1. Соль Илецкая высший сорт 1кг - 35 rub / Qo'shimchalarsiz yuqori sifatli tosh tuzi. Barcha turdagi ovqatlar uchun mos.
