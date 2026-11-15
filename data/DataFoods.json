@@ -1,0 +1,233 @@
+{
+  "meta": {
+    "title": "Oson Qovuriladigan Ovqatlar / Tezkor Qovurma Taomlar",
+    "description": "Eng arzon va hamma do'konlarda topiladigan mahsulotlardan tayyorlanadigan juda to'yimli taomlar. Har bir retsept yonida taxminiy narxi ko'rsatilgan.",
+    "currency": "RUB",
+    "language": "uz",
+    "totalRecipes": 10,
+    "lastUpdated": "2026-11-15"
+  },
+  "recipes": [
+    {
+      "id": 1,
+      "slug": "tuxum-va-non",
+      "name": "Tuxum va Non",
+      "price": { "min": 85, "max": 170, "display": "~85–170 ₽" },
+      "time": { "minutes": 6, "display": "6 daqiqa" },
+      "servings": "1 kishiga",
+      "budgetCategory": 100,
+      "ingredients": [
+        { "name": "Tuxum (C2 toifa)", "quantity": "10 dona", "price": "85–120 ₽" },
+        { "name": "Tuz", "quantity": "ta'bga ko'ra", "price": null },
+        { "name": "O'simlik yog'i", "quantity": "ozgina", "price": null },
+        { "name": "Non", "quantity": "1 dona", "price": "~45 ₽" }
+      ],
+      "steps": [
+        "Tovaga ozgina yog' solib qizdiring.",
+        "Tuxumlarni chaqib, tuz sepib, past olovda sarg'ishi pishguncha 3–4 daqiqa qovuring.",
+        "Issiq non bilan torting."
+      ]
+    },
+    {
+      "id": 2,
+      "slug": "kartoshka-va-non",
+      "name": "Kartoshka va Non",
+      "price": { "min": 120, "max": 120, "display": "~120 ₽" },
+      "time": { "minutes": 25, "display": "25 daqiqa" },
+      "servings": "1–2 kishiga",
+      "budgetCategory": 120,
+      "note": "Kartoshkani dehqon bozoridan olsangiz 30–50% tejaysiz!",
+      "ingredients": [
+        { "name": "Kartoshka", "quantity": "2–3 dona", "price": "50–110 ₽/kg" },
+        { "name": "Tuxum", "quantity": "3 dona", "price": null },
+        { "name": "Piyoz", "quantity": "1 dona", "price": null },
+        { "name": "O'simlik yog'i", "quantity": "qovurish uchun", "price": null },
+        { "name": "Tuz", "quantity": "ta'bga ko'ra", "price": null },
+        { "name": "Murch", "quantity": "ta'bga ko'ra", "price": null },
+        { "name": "Non", "quantity": "tortish uchun", "price": null }
+      ],
+      "steps": [
+        "Kartoshka va piyozni yupqa parrak qilib to'g'rab, qizigan yog'da qizarguncha qovuring.",
+        "Ustidan tuz va murch bilan atalgan tuxumni quying.",
+        "Qopqog'ini yopib past olovda 5–7 daqiqa pishing.",
+        "Non bilan torting."
+      ]
+    },
+    {
+      "id": 3,
+      "slug": "kartoshka-qovurish",
+      "name": "Kartoshka qovurish",
+      "price": { "min": 40, "max": 70, "display": "~40–70 ₽" },
+      "time": { "minutes": 20, "display": "20 daqiqa" },
+      "servings": "1–2 kishiga",
+      "budgetCategory": 100,
+      "ingredients": [
+        { "name": "Kartoshka", "quantity": "500 g", "price": "25–55 ₽" },
+        { "name": "O'simlik yog'i", "quantity": "qovurish uchun", "price": "~15 ₽" },
+        { "name": "Tuz", "quantity": "ta'bga ko'ra", "price": null },
+        { "name": "Murch", "quantity": "ta'bga ko'ra", "price": null }
+      ],
+      "steps": [
+        "Kartoshkani tozalab, yupqa yoki o'rtacha parrak qilib to'g'rang.",
+        "Tovada yog'ni qizdirib, kartoshkalarni bir qatlam qilib joylashtiring.",
+        "Aralashtirmasdan 3–4 daqiqa qovuring, keyin varaqlab, tilla rangga kirguncha 12–15 daqiqa davom ettiring.",
+        "Tuz va murch sepib, issiq holda torting."
+      ]
+    },
+    {
+      "id": 4,
+      "slug": "piyoz-qovurish",
+      "name": "Piyoz qovurish",
+      "price": { "min": 15, "max": 25, "display": "~15–25 ₽" },
+      "time": { "minutes": 10, "display": "10 daqiqa" },
+      "servings": "universal asos",
+      "budgetCategory": 100,
+      "ingredients": [
+        { "name": "Piyoz", "quantity": "1–2 dona", "price": "10–15 ₽" },
+        { "name": "O'simlik yog'i", "quantity": "qovurish uchun", "price": "~10 ₽" },
+        { "name": "Tuz", "quantity": "chimdik", "price": null }
+      ],
+      "steps": [
+        "Piyozni yarim halqa yoki kubik qilib to'g'rang.",
+        "Qizigan yog'da oltin rangga kirguncha 7–10 daqiqa qovuring.",
+        "Bu ko'p taomlarga asos bo'ladi: tuxum, kartoshka, sosiska bilan birlashtirsangiz, tayyor to'yimli taom bo'ladi."
+      ]
+    },
+    {
+      "id": 5,
+      "slug": "kartoshka-va-tuxum",
+      "name": "Kartoshka va Tuxum",
+      "price": { "min": 70, "max": 100, "display": "~70–100 ₽" },
+      "time": { "minutes": 20, "display": "20 daqiqa" },
+      "servings": "1–2 kishiga",
+      "budgetCategory": 100,
+      "ingredients": [
+        { "name": "Kartoshka", "quantity": "2–3 dona", "price": "25–50 ₽" },
+        { "name": "Tuxum", "quantity": "2–3 dona", "price": "20–30 ₽" },
+        { "name": "O'simlik yog'i", "quantity": "qovurish uchun", "price": null },
+        { "name": "Tuz", "quantity": "ta'bga ko'ra", "price": null },
+        { "name": "Murch", "quantity": "ta'bga ko'ra", "price": null }
+      ],
+      "steps": [
+        "Kartoshkani kubik qilib to'g'rab, qizigan yog'da tilla rangga kirguncha qovuring.",
+        "Ustidan atalgan tuxumni quying, qopqoqni yoping.",
+        "Past olovda 3–4 daqiqa pishing.",
+        "Tuz va murch sepib, issiq holda torting."
+      ]
+    },
+    {
+      "id": 6,
+      "slug": "kartoshka-va-piyoz",
+      "name": "Kartoshka va Piyoz",
+      "price": { "min": 55, "max": 80, "display": "~55–80 ₽" },
+      "time": { "minutes": 18, "display": "18 daqiqa" },
+      "servings": "1–2 kishiga",
+      "budgetCategory": 100,
+      "ingredients": [
+        { "name": "Kartoshka", "quantity": "2–3 dona", "price": "25–50 ₽" },
+        { "name": "Piyoz", "quantity": "1 dona", "price": "~10 ₽" },
+        { "name": "O'simlik yog'i", "quantity": "qovurish uchun", "price": null },
+        { "name": "Tuz", "quantity": "ta'bga ko'ra", "price": null },
+        { "name": "Murch", "quantity": "ta'bga ko'ra", "price": null }
+      ],
+      "steps": [
+        "Kartoshkani yupqa parrak qilib to'g'rab, qizigan yog'da qovuring.",
+        "Yarim tayyor bo'lganda ustiga mayda to'g'ralgan piyozni qo'shib, birga qizarguncha davom ettiring.",
+        "Tuz va murch sepib, issiq holda torting."
+      ]
+    },
+    {
+      "id": 7,
+      "slug": "kartoshka-va-sosiska-kalbasa",
+      "name": "Kartoshka va Sosiska / Kalbasa",
+      "price": { "min": 140, "max": 200, "display": "~140–200 ₽" },
+      "time": { "minutes": 20, "display": "20 daqiqa" },
+      "servings": "2 kishiga",
+      "budgetCategory": 150,
+      "ingredients": [
+        { "name": "Kartoshka", "quantity": "500 g", "price": "25–55 ₽" },
+        { "name": "Sosiska", "quantity": "4 dona", "price": "80–130 ₽", "alternative": "yoki kalbasa (200 g)" },
+        { "name": "Piyoz", "quantity": "1 dona", "price": "~10 ₽" },
+        { "name": "O'simlik yog'i", "quantity": "qovurish uchun", "price": null },
+        { "name": "Tuz", "quantity": "ta'bga ko'ra", "price": null },
+        { "name": "Murch", "quantity": "ta'bga ko'ra", "price": null }
+      ],
+      "steps": [
+        "Kartoshkani kubik qilib to'g'rab, qizigan yog'da yarim pishguncha qovuring.",
+        "Alohida tovada piyoz va sosiska/kalbasa bo'laklarini qizartiring.",
+        "Hammasini birlashtirib, yana 5 daqiqa birga qovuring.",
+        "Tuz va murch sepib, issiq holda torting."
+      ]
+    },
+    {
+      "id": 8,
+      "slug": "kartoshka-piyoz-sosiska-kalbasa",
+      "name": "Kartoshka, Piyoz va Sosiska / Kalbasa",
+      "price": { "min": 150, "max": 210, "display": "~150–210 ₽" },
+      "time": { "minutes": 25, "display": "25 daqiqa" },
+      "servings": "2–3 kishiga",
+      "budgetCategory": 150,
+      "ingredients": [
+        { "name": "Kartoshka", "quantity": "500–700 g", "price": "30–70 ₽" },
+        { "name": "Piyoz", "quantity": "1–2 dona", "price": "15–20 ₽" },
+        { "name": "Sosiska", "quantity": "4–5 dona", "price": "80–130 ₽", "alternative": "yoki kalbasa (200 g)" },
+        { "name": "O'simlik yog'i", "quantity": "qovurish uchun", "price": null },
+        { "name": "Tuz", "quantity": "ta'bga ko'ra", "price": null },
+        { "name": "Murch", "quantity": "ta'bga ko'ra", "price": null },
+        { "name": "Ziravorlar", "quantity": "ta'bga ko'ra", "price": null }
+      ],
+      "steps": [
+        "Piyozni yarim halqa qilib, qizigan yog'da tillarang bo'lguncha qovuring.",
+        "Ustiga kubik to'g'ralgan kartoshkani qo'shib, 12–15 daqiqa qovuring.",
+        "Oxirida sosiska/kalbasa bo'laklarini qo'shib, 5 daqiqa birga qizartiring.",
+        "Tuz, murch va sevimli ziravorlar bilan ta'mini sozlab, issiq holda torting."
+      ]
+    },
+    {
+      "id": 9,
+      "slug": "tuxum-va-piyoz",
+      "name": "Tuxum va Piyoz",
+      "price": { "min": 80, "max": 110, "display": "~80–110 ₽" },
+      "time": { "minutes": 12, "display": "12 daqiqa" },
+      "servings": "1–2 kishiga",
+      "budgetCategory": 150,
+      "ingredients": [
+        { "name": "Tuxum", "quantity": "3–4 dona", "price": "30–40 ₽" },
+        { "name": "Piyoz", "quantity": "1–2 dona", "price": "15–20 ₽" },
+        { "name": "Non", "quantity": "tortish uchun", "price": "~35 ₽" },
+        { "name": "O'simlik yog'i", "quantity": "qovurish uchun", "price": null },
+        { "name": "Tuz", "quantity": "ta'bga ko'ra", "price": null },
+        { "name": "Murch", "quantity": "ta'bga ko'ra", "price": null }
+      ],
+      "steps": [
+        "Piyozni mayda to'g'rab, qizigan yog'da tillarang bo'lguncha qovuring.",
+        "Ustiga atalgan tuxumni quyib, sekin aralashtirib, 3–4 daqiqa pishing.",
+        "Tuz va murch sepib, issiq non bilan torting."
+      ]
+    },
+    {
+      "id": 10,
+      "slug": "tuxum-va-pomidor",
+      "name": "Tuxum va Pomidor",
+      "price": { "min": 110, "max": 160, "display": "~110–160 ₽" },
+      "time": { "minutes": 12, "display": "12 daqiqa" },
+      "servings": "2 kishiga",
+      "budgetCategory": 150,
+      "ingredients": [
+        { "name": "Tuxum", "quantity": "3–4 dona", "price": "30–40 ₽" },
+        { "name": "Pomidor", "quantity": "2 dona", "price": "60–100 ₽" },
+        { "name": "Piyoz (ixtiyoriy)", "quantity": "1 dona", "price": "~10 ₽", "optional": true },
+        { "name": "O'simlik yog'i", "quantity": "qovurish uchun", "price": null },
+        { "name": "Tuz", "quantity": "ta'bga ko'ra", "price": null },
+        { "name": "Murch", "quantity": "ta'bga ko'ra", "price": null },
+        { "name": "Ko'kat (ixtiyoriy)", "quantity": "ta'bga ko'ra", "price": null, "optional": true }
+      ],
+      "steps": [
+        "Pomidorni kubik yoki yarim halqa qilib to'g'rab, qizigan yog'da 3–4 daqiqa qovuring (suvi chiqib, yumshaguncha).",
+        "Ustiga atalgan tuxumni quyib, qopqoqni yoping.",
+        "Past olovda 3–5 daqiqa pishing.",
+        "Tuz, murch va ko'kat sepib, issiq holda torting."
+      ]
+    }
+  ]
+}
