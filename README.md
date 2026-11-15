@@ -1,7 +1,7 @@
 # Foods for Migration / Musofirlar Ovqatlari
 Musofirlikda yurgan yurtdoshlarimiz uchun hamyonbop, tez va oson tayyorlanadigan taomlar bo‘yicha qo‘llanma va video-blog platformasi.
 
-![Musofir_Taomlari.png](source/img/logo/Musofir_Taomlari.png)
+![Musofir_Taomlari.png](source/img/logo/Musofir_Ovqatlari.png)
 
 ## Demo and Screenshot
 https://koprikew.github.io/Foods-for-Migration/
