@@ -6,10 +6,12 @@ Musofirlikda yurgan yurtdoshlarimiz uchun hamyonbop, tez va oson tayyorlanadigan
 ## Demo and Screenshot
 ### Hosting va Doment:
 
+1. View on Githib: https://github.com/KopriKew/Foods-for-Migration/
+2. GitHub Page: https://koprikew.github.io/Foods-for-Migration/
+3. https://musofir-ovqatlari.ru/ - https://koprikew-foods-for-migration-f355.twc1.net/
 Hosting va Doment: https://timeweb.cloud/r/is51340/ + my referrals
-1. GitHub Page: https://koprikew.github.io/Foods-for-Migration/
-2. https://musofir-ovqatlari.ru/ - https://koprikew-foods-for-migration-f355.twc1.net/
 
+### Screenshot:
 ![koprikew.github.io_Foods-for-Migration_.png](source/img/demo/koprikew.github.io_Foods-for-Migration_.png)
 
 
